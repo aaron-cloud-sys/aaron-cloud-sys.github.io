@@ -208,7 +208,7 @@
     </div>
   </section>
 
-  <!-- ══ 3. PHILOSOPHY & CAPABILITY MATRIX (inspiration.mp4 Chiaroscuro) ══ -->
+  <!-- ══ 3. PHILOSOPHY & AUTONOMOUS PIPELINE TERMINAL (Interactive Simulator) ══ -->
   <section id="philosophy">
     <div class="container">
       <div class="split-theatre">
@@ -225,63 +225,117 @@
             and slow reconciliations. By integrating custom LLM automation scripts directly into accounting pipelines, 
             I bridge the gap between audit-grade precision and next-generation execution speed.
           </p>
+
+          <!-- Interactive Simulator Controls -->
+          <div class="terminal-ctrl-box">
+            <span class="ctrl-label">// LIVE PIPELINE SIMULATOR</span>
+            <div class="terminal-tabs">
+              <button class="term-tab active" data-mode="ocr">01 · Ingestion &amp; OCR</button>
+              <button class="term-tab" data-mode="recon">02 · Ledger Recon</button>
+              <button class="term-tab" data-mode="gem">03 · GeM Verification</button>
+            </div>
+          </div>
         </div>
 
         <div class="theatre-col right">
-          <div class="capability-matrix">
-            
-            <div class="matrix-item">
-              <div class="matrix-header">
-                <span class="matrix-icon">01</span>
-                <h4>Autonomous Document Structuring</h4>
+          <!-- Interactive Live Neural Terminal -->
+          <div class="neural-terminal" id="neuralTerminal">
+            <div class="term-titlebar">
+              <div class="term-dots">
+                <span class="tdot red"></span><span class="tdot yellow"></span><span class="tdot green"></span>
               </div>
-              <p>Automated OCR &amp; structured schema mapping for vendor invoices, purchase orders, and delivery challans, cutting processing cycle from 5 days to 2 days.</p>
+              <span class="term-title" id="termTitle">pipeline_agent_v2.6 :: INGESTION_MODE</span>
+              <span class="term-status-badge">ACTIVE [60% SPEEDUP]</span>
             </div>
-
-            <div class="matrix-item">
-              <div class="matrix-header">
-                <span class="matrix-icon">02</span>
-                <h4>Institutional Ledger Governance</h4>
-              </div>
-              <p>Reconciliation of 200+ distinct hospital &amp; corporate ledger accounts with strict statutory compliance and variance tracking.</p>
+            <div class="term-screen">
+              <pre class="term-code" id="termCode"><code class="term-stream"></code></pre>
             </div>
-
-            <div class="matrix-item">
-              <div class="matrix-header">
-                <span class="matrix-icon">03</span>
-                <h4>GeM Government Tender Ops</h4>
-              </div>
-              <p>High-stakes government procurement validation, pricing strategy, vendor billing settlements, and zero-defect compliance execution.</p>
+            <div class="term-footer">
+              <span class="tf-left">LATENCY: <strong id="termLatency">142ms</strong></span>
+              <span class="tf-right">ACCURACY: <strong>99.8%</strong></span>
             </div>
-
-            <div class="matrix-item">
-              <div class="matrix-header">
-                <span class="matrix-icon">04</span>
-                <h4>Quantitative Equity Modeling</h4>
-              </div>
-              <p>Data-driven market research analyzing price-volume trends and supply-demand anomalies across 30+ equities with 1,000+ financial datapoints.</p>
-            </div>
-
           </div>
         </div>
 
       </div>
+
+      <!-- 4 Interactive 3D Tilt Capability Cards -->
+      <div class="capability-matrix-v2" id="capabilityMatrix">
+        
+        <div class="matrix-card-3d" data-index="1">
+          <div class="mc-glow"></div>
+          <div class="mc-header">
+            <span class="matrix-icon">01</span>
+            <span class="mc-pill">PIPELINE</span>
+          </div>
+          <h4>Autonomous Document Structuring</h4>
+          <p>Automated OCR &amp; structured schema mapping for vendor invoices, purchase orders, and delivery challans, cutting processing cycle from 5 days to 2 days.</p>
+          <div class="mc-meter"><div class="mc-bar" style="width: 85%;"></div></div>
+          <div class="mc-stat"><span>Latency Reduction</span><strong>-60%</strong></div>
+        </div>
+
+        <div class="matrix-card-3d" data-index="2">
+          <div class="mc-glow"></div>
+          <div class="mc-header">
+            <span class="matrix-icon">02</span>
+            <span class="mc-pill">GOVERNANCE</span>
+          </div>
+          <h4>Institutional Ledger Governance</h4>
+          <p>Reconciliation of 200+ distinct hospital &amp; corporate ledger accounts with strict statutory compliance and variance tracking.</p>
+          <div class="mc-meter"><div class="mc-bar emerald" style="width: 99.8%;"></div></div>
+          <div class="mc-stat"><span>Accuracy Rate</span><strong>99.8%</strong></div>
+        </div>
+
+        <div class="matrix-card-3d" data-index="3">
+          <div class="mc-glow"></div>
+          <div class="mc-header">
+            <span class="matrix-icon">03</span>
+            <span class="mc-pill">PROCUREMENT</span>
+          </div>
+          <h4>GeM Government Tender Ops</h4>
+          <p>High-stakes government procurement validation, pricing strategy, vendor billing settlements, and zero-defect compliance execution.</p>
+          <div class="mc-meter"><div class="mc-bar cyan" style="width: 100%;"></div></div>
+          <div class="mc-stat"><span>Rejection Rate</span><strong>0.0%</strong></div>
+        </div>
+
+        <div class="matrix-card-3d" data-index="4">
+          <div class="mc-glow"></div>
+          <div class="mc-header">
+            <span class="matrix-icon">04</span>
+            <span class="mc-pill">RESEARCH</span>
+          </div>
+          <h4>Quantitative Equity Modeling</h4>
+          <p>Data-driven market research analyzing price-volume trends and supply-demand anomalies across 30+ equities with 1,000+ financial datapoints.</p>
+          <div class="mc-meter"><div class="mc-bar purple" style="width: 92%;"></div></div>
+          <div class="mc-stat"><span>Equities Analyzed</span><strong>30+</strong></div>
+        </div>
+
+      </div>
+
     </div>
   </section>
 
-  <!-- ══ 4. EXPERIENCE TRACK RECORD (High-End Interactive Dossiers) ══ -->
+  <!-- ══ 4. EXPERIENCE TRACK RECORD (Interactive Dossiers & Deep-Dive Drawer) ══ -->
   <section id="experience">
     <div class="container">
       <div class="section-head">
         <span class="section-tag">// 003 · TRACK RECORD</span>
         <h2 class="section-title">Verified Execution History</h2>
         <p class="section-subtitle">Real-world impact across institutional healthcare, government procurement, and capital markets.</p>
+        
+        <!-- Interactive Dossier Filter Bar -->
+        <div class="dossier-filter-bar">
+          <button class="df-btn active" data-filter="all">All Experiences (3)</button>
+          <button class="df-btn" data-filter="skyy">Skyy Rider Electric</button>
+          <button class="df-btn" data-filter="kims">KIMS Healthcare</button>
+          <button class="df-btn" data-filter="odisha">Odisha Capital</button>
+        </div>
       </div>
 
-      <div class="dossier-grid">
+      <div class="dossier-grid" id="dossierGrid">
 
         <!-- Experience 1: Skyy Rider Electric -->
-        <article class="dossier-card">
+        <article class="dossier-card" data-company-card="skyy">
           <div class="dossier-meta">
             <span class="dossier-date">May 2026 – Aug 2026</span>
             <span class="dossier-tag highlight">OPERATIONS &amp; ACCOUNTS</span>
@@ -296,17 +350,33 @@
             <li><strong>Accounts Coordination:</strong> Reconciled <strong>₹45L+</strong> in vendor bills and receivables, accelerating payment forwarding cycles to the Accounts Department by <strong>25%</strong>.</li>
             <li><strong>Post-Delivery Service Liaison:</strong> Resolved <strong>30+ post-delivery client service tickets</strong>, achieving a <strong>95%+ customer satisfaction score</strong> in coordination with the Service Department.</li>
           </ul>
-          <div class="dossier-pills">
-            <span>GeM Operations</span>
-            <span>Agentic AI Automation</span>
-            <span>PO Lifecycle</span>
-            <span>Vendor Billing</span>
-            <span>Dispatch Logistics</span>
+          
+          <!-- Interactive Deep-Dive Toggle -->
+          <button class="dossier-inspect-btn" data-target="drawer-skyy">
+            <span>Inspect Toolchain &amp; Metrics</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <div class="dossier-drawer" id="drawer-skyy">
+            <div class="drawer-inner">
+              <div class="drawer-stat-row">
+                <div class="d-stat"><span class="d-val">₹3.4+ Cr</span><span class="d-lbl">Validated PO Value</span></div>
+                <div class="d-stat"><span class="d-val">91%</span><span class="d-lbl">On-Time Logistics SLA</span></div>
+                <div class="d-stat"><span class="d-val">0</span><span class="d-lbl">GeM Portal Rejections</span></div>
+              </div>
+              <div class="dossier-pills">
+                <span>GeM Portal API</span>
+                <span>Agentic AI Pipelines</span>
+                <span>PO Lifecycle</span>
+                <span>Vendor Billing</span>
+                <span>Dispatch Logistics</span>
+              </div>
+            </div>
           </div>
         </article>
 
         <!-- Experience 2: KIMS -->
-        <article class="dossier-card">
+        <article class="dossier-card" data-company-card="kims">
           <div class="dossier-meta">
             <span class="dossier-date">Dec 2025 – Mar 2026</span>
             <span class="dossier-tag">HEALTHCARE FINANCE</span>
@@ -318,16 +388,32 @@
             <li><strong>Automated Data Analysis:</strong> Accelerated weekly financial reporting turnaround by <strong>40%</strong> utilizing AI-assisted data workflows and advanced Excel formulas (Pivot Tables, VLOOKUP/XLOOKUP).</li>
             <li><strong>Payment Processing:</strong> Streamlined payment workflows for <strong>120+ institutional invoices</strong>, reducing average invoice processing turnaround time from 5 days to <strong>2 days</strong>.</li>
           </ul>
-          <div class="dossier-pills">
-            <span>Institutional Ledger Audit</span>
-            <span>Advanced Excel Models</span>
-            <span>Financial Reporting</span>
-            <span>Invoice Processing</span>
+          
+          <!-- Interactive Deep-Dive Toggle -->
+          <button class="dossier-inspect-btn" data-target="drawer-kims">
+            <span>Inspect Toolchain &amp; Metrics</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <div class="dossier-drawer" id="drawer-kims">
+            <div class="drawer-inner">
+              <div class="drawer-stat-row">
+                <div class="d-stat"><span class="d-val">₹50L+</span><span class="d-lbl">Reconciled Ledgers</span></div>
+                <div class="d-stat"><span class="d-val">99.8%</span><span class="d-lbl">Accuracy Benchmark</span></div>
+                <div class="d-stat"><span class="d-val">2 Days</span><span class="d-lbl">Turnaround (down from 5)</span></div>
+              </div>
+              <div class="dossier-pills">
+                <span>Institutional Ledger Audit</span>
+                <span>Advanced Excel Models</span>
+                <span>Financial Reporting</span>
+                <span>Invoice Processing</span>
+              </div>
+            </div>
           </div>
         </article>
 
         <!-- Experience 3: Odisha Capital -->
-        <article class="dossier-card">
+        <article class="dossier-card" data-company-card="odisha">
           <div class="dossier-meta">
             <span class="dossier-date">May 2025 – Jun 2025</span>
             <span class="dossier-tag">EQUITY RESEARCH</span>
@@ -339,11 +425,27 @@
             <li><strong>Trend &amp; Volatility Analysis:</strong> Evaluated financial metrics and price volatility patterns of <strong>15+ benchmark stocks</strong> to identify key market supply-demand drivers.</li>
             <li><strong>Data Synthesis:</strong> Compiled and analyzed <strong>1,000+ financial data points</strong> covering market indices, P/E ratios, and daily trading volumes into executive summary reports.</li>
           </ul>
-          <div class="dossier-pills">
-            <span>Equity Analysis</span>
-            <span>Supply-Demand Dynamics</span>
-            <span>Volatility Evaluation</span>
-            <span>Financial Data Synthesis</span>
+          
+          <!-- Interactive Deep-Dive Toggle -->
+          <button class="dossier-inspect-btn" data-target="drawer-odisha">
+            <span>Inspect Toolchain &amp; Metrics</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <div class="dossier-drawer" id="drawer-odisha">
+            <div class="drawer-inner">
+              <div class="drawer-stat-row">
+                <div class="d-stat"><span class="d-val">30+</span><span class="d-lbl">Equities Analyzed</span></div>
+                <div class="d-stat"><span class="d-val">1,000+</span><span class="d-lbl">Financial Datapoints</span></div>
+                <div class="d-stat"><span class="d-val">25 Pages</span><span class="d-lbl">Authored Thesis</span></div>
+              </div>
+              <div class="dossier-pills">
+                <span>Equity Analysis</span>
+                <span>Supply-Demand Dynamics</span>
+                <span>Volatility Evaluation</span>
+                <span>Financial Data Synthesis</span>
+              </div>
+            </div>
           </div>
         </article>
 
@@ -351,16 +453,19 @@
     </div>
   </section>
 
-  <!-- ══ 5. PRO BEYOND DIMENSIONS — EVIDENCE & METRICS (interaction.mp4 frame 03) ══ -->
+  <!-- ══ 5. PRO BEYOND DIMENSIONS — EVIDENCE & LIVE ROI CALCULATOR (interaction.mp4 frame 03) ══ -->
   <section id="metrics">
     <div class="container">
       
       <div class="pro-beyond-stage">
         <div class="mini-led-screen" id="miniLedScreen">
-          <div class="screen-glow-mesh"></div>
+          <!-- Interactive Mini-LED Canvas Background -->
+          <canvas id="miniLedCanvas" class="mini-led-canvas"></canvas>
+          
           <div class="screen-content">
             <span class="screen-subtag">PRO BEYOND DIMENSIONS · EMPIRICAL IMPACT</span>
             <h2 class="screen-title">Quantified Proof of Execution</h2>
+            
             <div class="screen-stats-strip">
               <div class="mini-stat">
                 <span class="ms-num" data-target="95" data-prefix="₹" data-suffix="L+">0</span>
@@ -377,6 +482,32 @@
               <div class="mini-stat">
                 <span class="ms-num" data-target="3.4" data-decimal="1" data-prefix="₹" data-suffix="Cr+">0</span>
                 <span class="ms-desc">POs Validated (150+ Orders)</span>
+              </div>
+            </div>
+
+            <!-- Interactive Agentic AI ROI & Time-Saved Calculator -->
+            <div class="interactive-roi-box">
+              <div class="roi-header">
+                <span class="roi-badge">INTERACTIVE SIMULATOR</span>
+                <h4>Estimate Workflow Hours Saved with Ayush's Agentic AI Pipeline</h4>
+              </div>
+              <div class="roi-slider-group">
+                <label for="hoursSlider">Current Weekly Manual Documentation &amp; Reconciliation Hours: <strong id="hoursDisplay">25 hrs/week</strong></label>
+                <input type="range" id="hoursSlider" min="5" max="60" value="25" step="1" class="roi-slider">
+              </div>
+              <div class="roi-results-strip">
+                <div class="roi-card">
+                  <span class="roi-res-val" id="weeklySaved">15.0 hrs</span>
+                  <span class="roi-res-lbl">Weekly Hours Saved (60% Speedup)</span>
+                </div>
+                <div class="roi-card highlight">
+                  <span class="roi-res-val" id="monthlySaved">60.0 hrs</span>
+                  <span class="roi-res-lbl">Monthly Time Reclaimed</span>
+                </div>
+                <div class="roi-card">
+                  <span class="roi-res-val" id="annualSaved">780 hrs</span>
+                  <span class="roi-res-lbl">Annual Operational Capacity Gain</span>
+                </div>
               </div>
             </div>
             
