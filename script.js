@@ -181,7 +181,7 @@
   ctxUI.fillText('STATUS: LEDGER RECONCILIATION COMPLETE [99.8% PRECISION]', 60, 145);
   
   ctxUI.fillStyle = '#60a5fa';
-  ctxUI.fillText('GeM PORTAL: 150+ POs (₹1.5Cr+ VALUE) VALIDATED', 60, 190);
+  ctxUI.fillText('GeM PORTAL: 150+ POs (₹3.4Cr+ VALUE) VALIDATED', 60, 190);
   
   ctxUI.fillStyle = '#c084fc';
   ctxUI.fillText('AGENTIC AI: 60% WORKFLOW ACCELERATION', 60, 235);
