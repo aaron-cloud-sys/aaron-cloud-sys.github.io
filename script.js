@@ -434,17 +434,41 @@
     termObs.observe(termSection);
   }
 
-  /* ── 4. 3D PARALLAX TILT CAPABILITY CARDS ────────────────────────────────── */
+  /* ── 4. 3D SCROLL FLIP-TO-LEFT FOR THE 4 CAPABILITY POINTERS ────────────── */
   const matrixCards = document.querySelectorAll('.matrix-card-3d');
+  const matrixContainer = document.getElementById('capabilityMatrix');
+
+  if (matrixContainer && matrixCards.length > 0) {
+    const cardFlipObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Trigger 1-by-1 flip to left
+            matrixCards.forEach((card, idx) => {
+              setTimeout(() => {
+                card.classList.add('flipped-in');
+              }, idx * 160); // 160ms sequential stagger
+            });
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    cardFlipObserver.observe(matrixContainer);
+  }
+
+  // Interactive 3D Parallax Tilt on Hover (when flipped in)
   matrixCards.forEach((card) => {
     card.addEventListener('mousemove', (e) => {
+      if (!card.classList.contains('flipped-in')) return;
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -10;
-      const rotateY = ((x - centerX) / centerX) * 10;
+      const rotateX = ((y - centerY) / centerY) * -8;
+      const rotateY = ((x - centerX) / centerX) * 8;
 
       card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
       card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
@@ -452,7 +476,9 @@
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      if (card.classList.contains('flipped-in')) {
+        card.style.transform = 'perspective(1000px) rotateY(0deg) translateX(0) scale(1)';
+      }
     });
   });
 
