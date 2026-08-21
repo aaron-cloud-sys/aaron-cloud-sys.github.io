@@ -434,40 +434,39 @@
     termObs.observe(termSection);
   }
 
-  /* ── 4. 3D SCROLL FLIP-TO-LEFT & CLICK FLIP FOR THE 4 CAPABILITY POINTERS ── */
+  /* ── 4. 3D BIDIRECTIONAL SCROLL TURNING (CARDS 1, 2, 3, 4) ───────────────── */
   const flipCards = document.querySelectorAll('.matrix-card-flip');
   const matrixContainer = document.getElementById('capabilityMatrix');
 
-  // 1. Scroll-Driven 1-by-1 Flip to Left
-  function checkCardFlipsOnScroll() {
+  // Trigger individual cards based on scroll position (down AND up)
+  function handleCardScrollTurn() {
     if (!matrixContainer || flipCards.length === 0) return;
 
-    const rect = matrixContainer.getBoundingClientRect();
     const windowH = window.innerHeight;
+    const matrixRect = matrixContainer.getBoundingClientRect();
 
-    // Calculate how far into the matrix section the user has scrolled
-    // Trigger points for Card 1, 2, 3, 4
+    // Trigger offset thresholds for cards 1, 2, 3, 4
+    const thresholds = [0.85, 0.76, 0.67, 0.58];
+
     flipCards.forEach((card, idx) => {
       const cardRect = card.getBoundingClientRect();
-      // When the card top is past 65% of viewport height, flip it to the left!
-      const triggerPoint = windowH * 0.72;
-      
-      if (cardRect.top < triggerPoint) {
-        card.classList.add('is-flipped');
+      const trigger = windowH * thresholds[idx];
+
+      if (cardRect.top < trigger) {
+        card.classList.add('turned-to-screen');
       } else {
-        card.classList.remove('is-flipped');
+        card.classList.remove('turned-to-screen');
       }
     });
   }
 
-  window.addEventListener('scroll', checkCardFlipsOnScroll, { passive: true });
-  // Initial check
-  setTimeout(checkCardFlipsOnScroll, 300);
+  window.addEventListener('scroll', handleCardScrollTurn, { passive: true });
+  setTimeout(handleCardScrollTurn, 250);
 
-  // 2. Click to toggle flip manually
+  // Click to toggle turn manually
   flipCards.forEach((card) => {
     card.addEventListener('click', () => {
-      card.classList.toggle('is-flipped');
+      card.classList.toggle('turned-to-screen');
     });
 
     // 3D Parallax tilt on hover
@@ -482,8 +481,8 @@
 
       const inner = card.querySelector('.flip-card-inner');
       if (inner) {
-        const baseFlip = card.classList.contains('is-flipped') ? -180 : 0;
-        inner.style.transform = `rotateY(${baseFlip + rotateY}deg) rotateX(${rotateX}deg) translateY(-4px)`;
+        const baseRot = card.classList.contains('turned-to-screen') ? 180 : 0;
+        inner.style.transform = `rotateY(${baseRot + rotateY}deg) rotateX(${rotateX}deg) translateY(-4px)`;
       }
 
       card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
@@ -493,8 +492,8 @@
     card.addEventListener('mouseleave', () => {
       const inner = card.querySelector('.flip-card-inner');
       if (inner) {
-        const baseFlip = card.classList.contains('is-flipped') ? -180 : 0;
-        inner.style.transform = `rotateY(${baseFlip}deg) rotateX(0deg) translateY(0px)`;
+        const baseRot = card.classList.contains('turned-to-screen') ? 180 : 0;
+        inner.style.transform = `rotateY(${baseRot}deg) rotateX(0deg) translateY(0px)`;
       }
     });
   });
