@@ -348,33 +348,32 @@
 
   /* ── 3. LIVE NEURAL PIPELINE TERMINAL SIMULATOR (Philosophy) ─────────────── */
   const terminalStreams = {
-    ocr: `[INGESTION_AGENT] Initializing unstructured document parser...
-> Received batch: 150 Purchase Orders (₹3.4+ Cr gross value)
-> Ingestion format: Mixed PDFs, scanned PO challans, vendor invoices
-> OCR Confidence Score: 99.85%
-> Extraction: [Vendor_ID, Line_Items, HSN_Code, Unit_Price, Total_INR]
-> Validation check: Purchase Order vs. Dispatch Challan -> 100% MATCH
-> Output routing: Structured JSON dispatched to ERP Accounts Queue
-[RESULT] Baseline cycle time: 5.0 days -> Compressed to 2.0 days (-60% latency)`,
+    ocr: `[INGESTION_AGENT] Initializing unstructured document parsing pipeline...
+> Target stream: Commercial invoices, purchase orders & dispatch challans
+> Ingestion formats: Document PDFs, scanned order files, tabular statements
+> Running layout analysis: Header blocks, vendor metadata, line-item tables
+> Schema mapping: [Vendor_Entity, Item_Catalog, Unit_Rates, Statutory_Codes, Grand_Total]
+> Verification: Cross-referencing Purchase Orders with Dispatch Challans -> VALIDATED
+> Output pipeline: Auto-generating structured schema for ERP accounting queue
+[RESULT] Ingestion cycle compressed | Zero manual extraction errors`,
 
-    recon: `[RECONCILIATION_CORE] Mounting multi-account ledger engine...
-> Target entities: Kalinga Institute of Medical Sciences (KIMS) & Skyy Rider
-> Total volume audited: ₹95,00,000+ across 200+ distinct accounts
-> Running automated variance check:
-  - Account #KIMS-204-GEN: DR ₹4,50,000.00 == CR ₹4,50,000.00 [OK]
-  - Account #SRE-VEND-089: DR ₹12,85,400.00 == CR ₹12,85,400.00 [OK]
-  - Account #KIMS-MED-112: DR ₹7,20,000.00 == CR ₹7,20,000.00 [OK]
-> Math verification rate: 99.8% precision across all ledger entries
-[RESULT] Weekly reporting turnaround accelerated by 40% (Excel/AI Model)`,
+    recon: `[RECONCILIATION_CORE] Initializing institutional ledger audit engine...
+> Target entities: Institutional healthcare & corporate ledger accounts
+> Ingesting general ledgers, sub-ledgers & vendor payment statements
+> Executing automated dual-entry variance check:
+  - Validating debit entries against corresponding credit postings -> VERIFIED
+  - Checking bank settlement receipts with internal ledger records -> BALANCED
+  - Flagging and resolving multi-account discrepancies -> ZERO_VARIANCE
+> Mathematical verification: Complete cross-account ledger parity achieved
+[RESULT] Weekly reporting cycle accelerated | Full audit traceability`,
 
-    gem: `[GeM_OPS_ENGINE] Connecting to Government e-Marketplace API...
-> Checking Seller Identity: Skyy Rider Electric Pvt. Ltd.
-> Active Government Bids & Tenders: 80+ processed
-> Validating commercial vehicle dispatches: 80+ dispatches logged
-> On-time logistics delivery rate: 91% verified
-> Compliance audit: Statutory certifications, technical specs, warranty
-> Filing status: 80 / 80 Orders verified with 0 REJECTIONS
-[RESULT] 100% Statutory Compliance | Post-delivery CSAT: 95%+`
+    gem: `[GeM_OPS_ENGINE] Initializing Government e-Marketplace compliance workflow...
+> Target portal: Government e-Marketplace (GeM) tender & procurement queue
+> Verifying seller profile, authorization certifications & technical specifications
+> Auditing procurement documentation against government buyer terms -> PASSED
+> Cross-checking dispatch logs with delivery challans & tracking receipts -> MATCHED
+> Filing compliance verification: Complete documentation package verified
+[RESULT] Zero regulatory rejections | Seamless procurement lifecycle execution`
   };
 
   const termCode = document.querySelector('.term-stream');
