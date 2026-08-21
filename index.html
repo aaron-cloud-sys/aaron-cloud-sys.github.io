@@ -3,294 +3,426 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ayush Swain — Finance, Operations & AI Specialist</title>
-  <meta name="description" content="Portfolio of Ayush Swain — B.Com graduate specialising in Corporate Finance, GeM Operations and Agentic AI Automation.">
+  <title>Ayush Swain — Corporate Finance, Operations & Agentic AI Specialist</title>
+  <meta name="description" content="Portfolio of Ayush Swain — B.Com Graduate & Agentic AI Automation Specialist. Exploring the exploded architecture of finance, logistics, and machine intelligence.">
+  
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Three.js + OrbitControls + GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ══ CURSOR SPOTLIGHT ══ -->
-  <div id="cursor-glow"></div>
+  <!-- ══ CINEMATIC NOISE & STAGE LIGHTING OVERLAYS (inspiration.mp4) ══ -->
+  <div class="noise-layer" aria-hidden="true"></div>
+  <div class="spotlight-stage-beam" aria-hidden="true"></div>
+  <div class="cursor-spotlight" id="cursorSpotlight" aria-hidden="true"></div>
 
-  <!-- ══ NOISE OVERLAY ══ -->
-  <div class="noise-overlay"></div>
+  <!-- ══ HEADER NAVIGATION ══ -->
+  <header id="header">
+    <div class="nav-container">
+      <a href="#hero" class="brand">
+        <span class="brand-monogram">AS</span>
+        <span class="brand-sub">/ ARCHIVE 2026</span>
+      </a>
 
-  <!-- ══ NAV ══ -->
-  <nav id="navbar">
-    <div class="nav-inner">
-      <a href="#hero" class="logo">AS<span class="logo-accent">.</span></a>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#stack">Capabilities</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#metrics">Metrics</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <a href="ayushresumeog.pdf" download class="btn-nav">Download CV</a>
+      <nav class="nav-menu">
+        <a href="#hero" class="nav-link">Stage</a>
+        <a href="#exploded-view" class="nav-link">Architecture</a>
+        <a href="#philosophy" class="nav-link">Philosophy</a>
+        <a href="#experience" class="nav-link">Track Record</a>
+        <a href="#metrics" class="nav-link">Evidence</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="ayushresumeog.pdf" download="Ayush_Swain_Resume.pdf" class="btn-cv">
+          <span>Download CV</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </a>
+      </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- ══ HERO ══ -->
+  <!-- ══ 1. HERO STAGE (Dramatic Chiaroscuro Theatre — inspiration.mp4) ══ -->
   <section id="hero">
-    <div class="hero-bg-lines" aria-hidden="true">
-      <div class="hline"></div><div class="hline"></div>
-      <div class="hline"></div><div class="hline"></div>
+    <!-- Theatrical Side Typography (Inspiration Frame 05) -->
+    <div class="stage-flank flank-left" aria-hidden="true">
+      <span class="stage-tag">// 001 · SPECIFICATION</span>
+      <p class="flank-quote">WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?</p>
     </div>
 
-    <div class="hero-content">
-      <p class="hero-eyebrow"><span class="dot"></span> Available for opportunities</p>
-      <h1 class="hero-title">
-        <span class="reveal-line">AYUSH</span>
-        <span class="reveal-line accent-line">SWAIN</span>
+    <div class="stage-flank flank-right" aria-hidden="true">
+      <span class="stage-tag">// SYSTEM STATE: OPERATIONAL</span>
+      <p class="flank-quote">I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.</p>
+    </div>
+
+    <!-- Center Hero Content -->
+    <div class="hero-center">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>Open for Full-Time Finance, Operations &amp; AI Roles</span>
+      </div>
+
+      <h1 class="hero-main-title">
+        <span class="title-line">AYUSH</span>
+        <span class="title-line outline-glow">SWAIN</span>
       </h1>
-      <p class="hero-subtitle">
-        Finance · Operations · <em>Agentic AI</em>
+
+      <p class="hero-discipline">
+        Corporate Finance <span class="bullet">/</span> GeM Operations <span class="bullet">/</span> <em class="glow-txt">Agentic AI Automation</em>
       </p>
-      <p class="hero-body">
-        B.Com graduate turning raw data into decisions —<br>
-        reconciling <strong>₹95L+</strong> in ledgers, managing
-        <strong>150+ POs</strong>, and compressing workflows by
-        <strong>60 %</strong> using Agentic AI automation.
+
+      <p class="hero-description">
+        B.Com Graduate from KIIT University turning complex operational friction into 
+        autonomous, mathematically reconciled financial architectures. Reconciled <strong>₹95L+</strong> in ledgers 
+        and compressed workflow latency by <strong>60%</strong>.
       </p>
-      <div class="hero-ctas">
-        <a href="#experience" class="cta-primary">View Work</a>
-        <a href="ayushresumeog.pdf" download class="cta-secondary">Resume PDF ↓</a>
+
+      <div class="hero-cta-group">
+        <a href="#exploded-view" class="btn-primary-glow">
+          <span>Explore 3D Architecture</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/ayush-swain-71328b417/" target="_blank" rel="noopener" class="btn-secondary-dark">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          <span>LinkedIn</span>
+        </a>
       </div>
     </div>
 
-    <!-- Floating label cards — inspired by interaction.mp4 -->
-    <div class="float-cards" aria-hidden="true">
-      <div class="float-card fc-1">
-        <span class="fc-label">Account Reconciliation</span>
-        <span class="fc-value">99.8 % accuracy</span>
-      </div>
-      <div class="float-card fc-2">
-        <span class="fc-label">AI Workflow Speedup</span>
-        <span class="fc-value">60 % faster</span>
-      </div>
-      <div class="float-card fc-3">
-        <span class="fc-label">Ledgers Reconciled</span>
-        <span class="fc-value">₹ 95 L+</span>
-      </div>
-      <div class="float-card fc-4">
-        <span class="fc-label">POs Validated</span>
-        <span class="fc-value">₹ 1.5 Cr+</span>
-      </div>
-    </div>
+    <!-- Theatrical Spotlight Ellipse on Floor -->
+    <div class="stage-spotlight-floor" aria-hidden="true"></div>
 
-    <div class="scroll-indicator">
-      <span>scroll</span>
-      <div class="scroll-line"></div>
+    <!-- Scroll Down Indicator -->
+    <div class="scroll-cue">
+      <div class="mouse-icon"><div class="mouse-wheel"></div></div>
+      <span>SCROLL TO DECONSTRUCT</span>
     </div>
   </section>
 
-  <!-- ══ ABOUT ══ -->
-  <section id="about">
-    <div class="section-container">
-      <div class="about-grid">
-        <div class="about-left">
-          <p class="section-label">// 001 — About</p>
-          <h2 class="section-heading">Finance meets<br><em>the machine.</em></h2>
+  <!-- ══ 2. 3D EXPLODED ARCHITECTURE (interaction.mp4 Scrollytelling) ══ -->
+  <section id="exploded-view">
+    <div class="sticky-3d-wrapper" id="sticky3dWrapper">
+      
+      <!-- 3D Canvas Canvas Mount -->
+      <div id="webgl-container"></div>
+
+      <!-- HUD Top Bar -->
+      <div class="hud-top-bar">
+        <div class="hud-left">
+          <span class="hud-indicator-badge">INTERACTIVE HARDWARE STACK</span>
+          <span class="hud-mode" id="hudModeText">MODE: SCROLLYTELLING EXPLODED VIEW</span>
         </div>
-        <div class="about-right">
-          <p>I am a <strong>B.Com graduate from KIIT University</strong> with a track record across three distinct finance and operations internships — institutional accounting at KIMS, Government e-Marketplace supply chain at Skywriter Limited, and equity research at Odisha Capital Market.</p>
-          <p>What sets me apart is that I pair classical finance skills with <strong>Agentic AI tools</strong>. I automate document extraction, accelerate ledger workflows, and compress reporting cycles — achieving measurable, evidence-backed results that show up on the bottom line.</p>
-          <div class="about-tags">
-            <span>B.Com — KIIT University</span>
-            <span>Bhubaneswar, Odisha</span>
-            <span>Open to Full-Time Roles</span>
+        <div class="hud-controls">
+          <button class="hud-btn active" id="btnExplode">Explode</button>
+          <button class="hud-btn" id="btnAssemble">Assemble</button>
+          <button class="hud-btn" id="btnResetView">Reset 360°</button>
+        </div>
+      </div>
+
+      <!-- Interactive Callout Cards (interaction.mp4 style) -->
+      <div class="hud-annotations" id="hudAnnotations">
+        
+        <!-- Layer 1: Display / Dashboard -->
+        <div class="annotation-card card-display" id="cardDisplay" data-layer="display">
+          <div class="card-header">
+            <span class="layer-num">01</span>
+            <span class="layer-pill">INTERFACE DECK</span>
+          </div>
+          <h3 class="card-title">Executive Intelligence &amp; GeM Portals</h3>
+          <p class="card-body">High-density visual cockpits synthesizing government tenders, procurement validation, and statutory compliance.</p>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-label">PORTAL</span><span class="spec-val">GeM Government e-Marketplace</span></div>
+            <div class="spec-item"><span class="spec-label">COMPLIANCE</span><span class="spec-val">100% Zero-Defect Filings</span></div>
           </div>
         </div>
+
+        <!-- Layer 2: Magic Keyboard / Agentic AI Layer -->
+        <div class="annotation-card card-keyboard" id="cardKeyboard" data-layer="keyboard">
+          <div class="card-header">
+            <span class="layer-num">02</span>
+            <span class="layer-pill">AUTOMATION DECK</span>
+          </div>
+          <h3 class="card-title">Agentic AI &amp; Document Parsing</h3>
+          <p class="card-body">Autonomous LLM-assisted pipelines extracting, validating, and cross-checking invoices, purchase orders, and dispatch slips.</p>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-label">ACCELERATION</span><span class="spec-val">60% Faster Turnaround</span></div>
+            <div class="spec-item"><span class="spec-label">WORKFLOW</span><span class="spec-val">Zero Manual OCR Errors</span></div>
+          </div>
+        </div>
+
+        <!-- Layer 3: Logic Board / Financial Reconciliation Core -->
+        <div class="annotation-card card-logicboard" id="cardLogicBoard" data-layer="logicboard">
+          <div class="card-header">
+            <span class="layer-num">03</span>
+            <span class="layer-pill">COMPUTATIONAL CORE</span>
+          </div>
+          <h3 class="card-title">Institutional Ledger Reconciliation</h3>
+          <p class="card-body">Mathematical multi-account reconciliation engine processing ₹95L+ in hospital and corporate ledger entries at 99.8% precision.</p>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-label">RECONCILED</span><span class="spec-val">₹95,00,000+</span></div>
+            <div class="spec-item"><span class="spec-label">ACCURACY</span><span class="spec-val">99.8% Precision</span></div>
+            <div class="spec-item"><span class="spec-label">GST TRANS.</span><span class="spec-val">500+ Monthly</span></div>
+          </div>
+        </div>
+
+        <!-- Layer 4: Chassis / Logistics & Operations Base -->
+        <div class="annotation-card card-chassis" id="cardChassis" data-layer="chassis">
+          <div class="card-header">
+            <span class="layer-num">04</span>
+            <span class="layer-pill">FOUNDATIONAL BASE</span>
+          </div>
+          <h3 class="card-title">Supply Chain &amp; Procurement Hub</h3>
+          <p class="card-body">End-to-end logistics orchestration, purchase order verification, vendor lifecycle management, and vehicle dispatch planning.</p>
+          <div class="card-specs">
+            <div class="spec-item"><span class="spec-label">VOLUME</span><span class="spec-val">150+ POs (₹1.5Cr+)</span></div>
+            <div class="spec-item"><span class="spec-label">DISPATCH</span><span class="spec-val">98% On-Time SLA</span></div>
+            <div class="spec-item"><span class="spec-label">CSAT</span><span class="spec-val">95%+ Satisfaction</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Scrollytelling Progress Bar -->
+      <div class="scrolly-tracker">
+        <div class="tracker-step" data-step="0"><span class="step-dot"></span><span>ASSEMBLED</span></div>
+        <div class="tracker-step" data-step="1"><span class="step-dot"></span><span>OPENING</span></div>
+        <div class="tracker-step active" data-step="2"><span class="step-dot"></span><span>DECONSTRUCTED</span></div>
+        <div class="tracker-step" data-step="3"><span class="step-dot"></span><span>INSPECTION</span></div>
+      </div>
+
+      <!-- Drag Orbit Hint -->
+      <div class="orbit-hint-pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        <span>Click &amp; Drag 3D Model in 360° Space</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 3. PHILOSOPHY & CAPABILITY MATRIX (inspiration.mp4 Chiaroscuro) ══ -->
+  <section id="philosophy">
+    <div class="container">
+      <div class="split-theatre">
+        
+        <div class="theatre-col left">
+          <span class="section-tag">// 002 · OPERATIONAL THESIS</span>
+          <h2 class="giant-statement">
+            WHERE CLASSICAL<br>
+            FINANCE MEETS<br>
+            <span class="text-stroke">AGENTIC SPEED.</span>
+          </h2>
+          <p class="theatre-para">
+            Most finance workflows remain bogged down by fragmented spreadsheets, manual invoice matching, 
+            and slow reconciliations. By integrating custom LLM automation scripts directly into accounting pipelines, 
+            I bridge the gap between audit-grade precision and next-generation execution speed.
+          </p>
+        </div>
+
+        <div class="theatre-col right">
+          <div class="capability-matrix">
+            
+            <div class="matrix-item">
+              <div class="matrix-header">
+                <span class="matrix-icon">01</span>
+                <h4>Autonomous Document Structuring</h4>
+              </div>
+              <p>Automated OCR &amp; structured schema mapping for vendor invoices, purchase orders, and delivery challans, cutting processing cycle from 5 days to 2 days.</p>
+            </div>
+
+            <div class="matrix-item">
+              <div class="matrix-header">
+                <span class="matrix-icon">02</span>
+                <h4>Institutional Ledger Governance</h4>
+              </div>
+              <p>Reconciliation of 200+ distinct hospital &amp; corporate ledger accounts with strict GST statutory compliance and variance tracking.</p>
+            </div>
+
+            <div class="matrix-item">
+              <div class="matrix-header">
+                <span class="matrix-icon">03</span>
+                <h4>GeM Government Tender Ops</h4>
+              </div>
+              <p>High-stakes government procurement validation, pricing strategy, vendor billing settlements, and zero-defect compliance execution.</p>
+            </div>
+
+            <div class="matrix-item">
+              <div class="matrix-header">
+                <span class="matrix-icon">04</span>
+                <h4>Quantitative Equity Modeling</h4>
+              </div>
+              <p>Data-driven market research analyzing price-volume trends and supply-demand anomalies across 30+ equities with 1,000+ financial datapoints.</p>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ══ EXPLODED CAPABILITY STACK (3D layers — interaction.mp4) ══ -->
-  <section id="stack">
-    <div class="section-container">
-      <p class="section-label">// 002 — Capabilities</p>
-      <h2 class="section-heading">Exploded<br><em>capability stack.</em></h2>
-      <p class="stack-hint">Drag to orbit &nbsp;·&nbsp; Scroll into view to separate layers</p>
-    </div>
-
-    <div class="stage-wrap">
-      <div class="stage" id="stage">
-        <div class="orbit-group" id="orbitGroup">
-
-          <div class="layer layer-1" data-index="1">
-            <div class="layer-inner">
-              <div class="layer-chip">Layer 01 · Core Engine</div>
-              <h3>Agentic AI &amp;<br>Document Automation</h3>
-              <p>LLM-powered pipelines parse POs, invoices, and billing packets autonomously — extracting, structuring and routing data without manual keying.</p>
-              <div class="layer-tags">
-                <span>⚡ 60 % Speedup</span>
-                <span>🤖 Prompt Engineering</span>
-                <span>📄 Document Parsing</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="layer layer-2" data-index="2">
-            <div class="layer-inner">
-              <div class="layer-chip">Layer 02 · Financial Core</div>
-              <h3>Corporate Finance &amp;<br>Ledger Reconciliation</h3>
-              <p>Institutional ledger reconciliations, GST compliance, invoicing and financial statement integrity across 200 + accounts worth ₹ 95 L+.</p>
-              <div class="layer-tags">
-                <span>🎯 99.8 % Accuracy</span>
-                <span>💰 ₹ 95 L+ Reconciled</span>
-                <span>📊 500+ GST Transactions</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="layer layer-3" data-index="3">
-            <div class="layer-inner">
-              <div class="layer-chip">Layer 03 · Operations</div>
-              <h3>GeM Supply Chain &amp;<br>Logistics Planning</h3>
-              <p>End-to-end PO validation, vehicle dispatch planning and Government e-Marketplace compliance — zero rejections across 80 + filings.</p>
-              <div class="layer-tags">
-                <span>📦 150+ POs (₹ 1.5 Cr+)</span>
-                <span>🚚 98 % On-Time</span>
-                <span>✅ 0 Compliance Errors</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="layer layer-4" data-index="4">
-            <div class="layer-inner">
-              <div class="layer-chip">Layer 04 · Intelligence</div>
-              <h3>Capital Markets &amp;<br>Equity Analytics</h3>
-              <p>Quantitative research on stock supply-demand dynamics — 30 + listed equities, 1,000 + data points, published 25-page research paper.</p>
-              <div class="layer-tags">
-                <span>📈 30+ Equities</span>
-                <span>📜 25-Page Research</span>
-                <span>📉 Price Volatility Modelling</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ EXPERIENCE TIMELINE ══ -->
+  <!-- ══ 4. EXPERIENCE TRACK RECORD (High-End Interactive Dossiers) ══ -->
   <section id="experience">
-    <div class="section-container">
-      <p class="section-label">// 003 — Experience</p>
-      <h2 class="section-heading">Where I have<br><em>delivered results.</em></h2>
-    </div>
-
-    <div class="timeline">
-
-      <div class="timeline-item" data-company="Skywriter">
-        <div class="tl-left">
-          <span class="tl-date">May – Aug 2026</span>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-card">
-          <p class="tl-company">Skywriter Limited Pvt. Ltd.</p>
-          <h3 class="tl-role">Operations &amp; Accounts Intern</h3>
-          <ul class="tl-bullets">
-            <li>Validated <strong>150 + POs</strong> worth <strong>₹ 1.5 Cr+</strong> with 100 % specification accuracy.</li>
-            <li>Reduced document processing time by <strong>60 %</strong> using Agentic AI parsing pipelines.</li>
-            <li>Executed <strong>80 + GeM</strong> compliance filings with <strong>zero rejections</strong>.</li>
-            <li>Reconciled <strong>₹ 45 L+</strong> in vendor bills; cut payment cycle by <strong>25 %</strong>.</li>
-            <li>Resolved <strong>30 + post-delivery service tickets</strong> — 95 %+ CSAT score.</li>
-          </ul>
-          <div class="tl-tags">
-            <span>GeM Portal</span><span>Agentic AI</span><span>Logistics</span><span>Billing</span>
-          </div>
-        </div>
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">// 003 · TRACK RECORD</span>
+        <h2 class="section-title">Verified Execution History</h2>
+        <p class="section-subtitle">Real-world impact across institutional healthcare, government procurement, and capital markets.</p>
       </div>
 
-      <div class="timeline-item" data-company="KIMS">
-        <div class="tl-left">
-          <span class="tl-date">Dec 2025 – Mar 2026</span>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-card">
-          <p class="tl-company">Kalinga Institute of Medical Sciences (KIMS)</p>
-          <h3 class="tl-role">Finance &amp; Accounts Intern</h3>
-          <ul class="tl-bullets">
-            <li>Reconciled <strong>200 + institutional ledger accounts</strong> worth <strong>₹ 50 L+</strong> at 99.8 % accuracy.</li>
-            <li>Cut weekly reporting turnaround by <strong>40 %</strong> using AI-assisted data workflows.</li>
-            <li>Processed <strong>500 + GST transactions</strong> monthly — 100 % statutory compliance.</li>
-            <li>Reduced invoice processing from 5 days to <strong>2 days</strong> across 120 + invoices.</li>
-          </ul>
-          <div class="tl-tags">
-            <span>Reconciliation</span><span>GST</span><span>Advanced Excel</span><span>Reporting</span>
-          </div>
-        </div>
-      </div>
+      <div class="dossier-grid">
 
-      <div class="timeline-item" data-company="OdishaCapital">
-        <div class="tl-left">
-          <span class="tl-date">May – Jun 2025</span>
-          <div class="tl-line"></div>
-        </div>
-        <div class="tl-card">
-          <p class="tl-company">Odisha Capital Market &amp; Enterprises Ltd.</p>
-          <h3 class="tl-role">Stock &amp; Equity Research Analyst Intern</h3>
-          <ul class="tl-bullets">
-            <li>Authored <strong>25-page research paper</strong> on supply-demand dynamics across <strong>30 + listed equities</strong>.</li>
-            <li>Synthesised <strong>1,000 + data points</strong> — indices, P/E ratios, trading volumes.</li>
-            <li>Evaluated price volatility of <strong>15 + benchmark stocks</strong> to map market drivers.</li>
-          </ul>
-          <div class="tl-tags">
-            <span>Equity Research</span><span>Market Analysis</span><span>Data Synthesis</span>
+        <!-- Experience 1: Skywriter -->
+        <article class="dossier-card">
+          <div class="dossier-meta">
+            <span class="dossier-date">May 2026 – Aug 2026</span>
+            <span class="dossier-tag highlight">OPERATIONS &amp; AI</span>
           </div>
-        </div>
-      </div>
+          <h3 class="dossier-company">Skywriter Limited Pvt. Ltd.</h3>
+          <p class="dossier-role">Operations &amp; Accounts Intern</p>
+          <ul class="dossier-list">
+            <li><strong>₹1.5 Cr+ PO Volume:</strong> Validated 150+ procurement orders with 100% specification adherence across government buyers.</li>
+            <li><strong>60% Speed Improvement:</strong> Engineered Agentic AI document parsing routines that slashed invoice and PO verification turnaround.</li>
+            <li><strong>Zero GeM Rejections:</strong> Spearheaded 80+ Government e-Marketplace compliance filings with a perfect 0% rejection rate.</li>
+            <li><strong>₹45L+ Bill Settlement:</strong> Streamlined vendor payment lifecycle, shortening settlement cycles by 25%.</li>
+          </ul>
+          <div class="dossier-pills">
+            <span>GeM Operations</span>
+            <span>Agentic AI Pipelines</span>
+            <span>Vendor Reconciliation</span>
+            <span>Dispatch Logistics</span>
+          </div>
+        </article>
 
+        <!-- Experience 2: KIMS -->
+        <article class="dossier-card">
+          <div class="dossier-meta">
+            <span class="dossier-date">Dec 2025 – Mar 2026</span>
+            <span class="dossier-tag">HEALTHCARE FINANCE</span>
+          </div>
+          <h3 class="dossier-company">Kalinga Institute of Medical Sciences (KIMS)</h3>
+          <p class="dossier-role">Finance &amp; Accounts Intern</p>
+          <ul class="dossier-list">
+            <li><strong>₹50L+ Ledger Integrity:</strong> Reconciled 200+ complex institutional hospital accounts at 99.8% mathematical accuracy.</li>
+            <li><strong>40% Accelerated Reporting:</strong> Designed optimized Excel automation workflows for weekly and monthly financial closings.</li>
+            <li><strong>500+ Monthly GST Filings:</strong> Handled high-volume statutory tax data with 100% compliance verification.</li>
+            <li><strong>Invoice Cycle Reduction:</strong> Accelerated hospital vendor invoice processing from 5 days down to 2 days.</li>
+          </ul>
+          <div class="dossier-pills">
+            <span>Corporate Finance</span>
+            <span>GST Statutory Tax</span>
+            <span>Advanced Ledger Reconciliation</span>
+            <span>ERP Data Hygiene</span>
+          </div>
+        </article>
+
+        <!-- Experience 3: Odisha Capital -->
+        <article class="dossier-card">
+          <div class="dossier-meta">
+            <span class="dossier-date">May 2025 – Jun 2025</span>
+            <span class="dossier-tag">EQUITY RESEARCH</span>
+          </div>
+          <h3 class="dossier-company">Odisha Capital Market &amp; Enterprises Ltd.</h3>
+          <p class="dossier-role">Stock &amp; Equity Research Analyst Intern</p>
+          <ul class="dossier-list">
+            <li><strong>25-Page Research Thesis:</strong> Published in-depth empirical paper analyzing supply-demand dynamics across 30+ listed equities.</li>
+            <li><strong>1,000+ Financial Datapoints:</strong> Synthesized P/E multiples, volatility bands, and market liquidity drivers for investment evaluation.</li>
+            <li><strong>Benchmark Volatility Modeling:</strong> Mapped price behavior of 15+ sector-leading stocks against broader market trends.</li>
+          </ul>
+          <div class="dossier-pills">
+            <span>Equity Research</span>
+            <span>Quantitative Valuation</span>
+            <span>Volatility Modeling</span>
+            <span>Financial Synthesis</span>
+          </div>
+        </article>
+
+      </div>
     </div>
   </section>
 
-  <!-- ══ METRICS COUNT-UP ══ -->
+  <!-- ══ 5. PRO BEYOND DIMENSIONS — EVIDENCE & METRICS (interaction.mp4 frame 03) ══ -->
   <section id="metrics">
-    <div class="section-container">
-      <p class="section-label">// 004 — Evidence</p>
-      <h2 class="section-heading">Numbers that<br><em>speak first.</em></h2>
-    </div>
-    <div class="metrics-grid">
-      <div class="metric-card" data-val="150" data-suffix="+" data-label="POs Validated (₹1.5Cr+ value)"></div>
-      <div class="metric-card" data-val="60" data-suffix="%" data-label="Reduction in Document Processing Time"></div>
-      <div class="metric-card" data-val="99.8" data-suffix="%" data-decimal="1" data-label="Financial Data Accuracy Rate"></div>
-      <div class="metric-card" data-val="500" data-suffix="+" data-label="Monthly GST Transactions Processed"></div>
-      <div class="metric-card" data-val="95" data-suffix="%" data-label="Post-Delivery Customer Satisfaction"></div>
-      <div class="metric-card" data-val="40" data-suffix="%" data-label="Reporting Turnaround Improvement"></div>
+    <div class="container">
+      
+      <div class="pro-beyond-stage">
+        <div class="mini-led-screen" id="miniLedScreen">
+          <div class="screen-glow-mesh"></div>
+          <div class="screen-content">
+            <span class="screen-subtag">PRO BEYOND DIMENSIONS · EMPIRICAL IMPACT</span>
+            <h2 class="screen-title">Quantified Proof of Execution</h2>
+            <div class="screen-stats-strip">
+              <div class="mini-stat">
+                <span class="ms-num" data-target="95" data-prefix="₹" data-suffix="L+">0</span>
+                <span class="ms-desc">Ledgers Reconciled</span>
+              </div>
+              <div class="mini-stat">
+                <span class="ms-num" data-target="60" data-suffix="%">0</span>
+                <span class="ms-desc">AI Workflow Acceleration</span>
+              </div>
+              <div class="mini-stat">
+                <span class="ms-num" data-target="99.8" data-decimal="1" data-suffix="%">0</span>
+                <span class="ms-desc">Audit Data Accuracy</span>
+              </div>
+              <div class="mini-stat">
+                <span class="ms-num" data-target="1.5" data-decimal="1" data-prefix="₹" data-suffix="Cr+">0</span>
+                <span class="ms-desc">POs Validated</span>
+              </div>
+            </div>
+            
+            <a href="#hero" class="replay-btn" id="replayButton">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              <span>Replay Interactive Architecture</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- ══ CONTACT ══ -->
+  <!-- ══ 6. CONTACT THEATRE ══ -->
   <section id="contact">
-    <div class="section-container contact-wrap">
-      <p class="section-label">// 005 — Contact</p>
-      <h2 class="section-heading">Ready to<br><em>add value.</em></h2>
-      <p class="contact-body">I'm open to finance, operations, and AI-automation roles. Drop me a line or connect on LinkedIn.</p>
+    <div class="container">
+      <div class="contact-box">
+        <span class="section-tag">// 004 · INITIALIZE CONNECTION</span>
+        <h2 class="contact-title">Let's build high-velocity<br><em>financial operations together.</em></h2>
+        <p class="contact-desc">
+          Available for corporate finance, business operations, supply chain, and AI workflow engineering roles.
+        </p>
 
-      <div class="contact-links">
-        <a href="mailto:ayushwain161@gmail.com" class="contact-btn email-btn">
-          <span class="cb-icon">✉</span>
-          <span class="cb-text">ayushwain161@gmail.com</span>
-        </a>
-        <a href="https://www.linkedin.com/in/ayush-swain-71328b417/" target="_blank" rel="noopener" class="contact-btn linkedin-btn">
-          <span class="cb-icon">in</span>
-          <span class="cb-text">linkedin.com/in/ayush-swain</span>
-        </a>
-        <a href="ayushresumeog.pdf" download class="contact-btn resume-btn">
-          <span class="cb-icon">↓</span>
-          <span class="cb-text">Download Resume (PDF)</span>
-        </a>
+        <div class="contact-actions">
+          <a href="mailto:ayushwain161@gmail.com" class="contact-link email">
+            <span class="icon">✉</span>
+            <span class="text">ayushwain161@gmail.com</span>
+          </a>
+          <a href="https://www.linkedin.com/in/ayush-swain-71328b417/" target="_blank" rel="noopener" class="contact-link linkedin">
+            <span class="icon">in</span>
+            <span class="text">linkedin.com/in/ayush-swain-71328b417</span>
+          </a>
+          <a href="ayushresumeog.pdf" download="Ayush_Swain_Resume.pdf" class="contact-link download">
+            <span class="icon">↓</span>
+            <span class="text">Download Verified CV (PDF)</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <footer>
-    <p>© 2026 Ayush Swain &nbsp;·&nbsp; Built with Agentic AI</p>
+  <!-- ══ FOOTER ══ -->
+  <footer id="footer">
+    <div class="container footer-content">
+      <p>© 2026 Ayush Swain. All Rights Reserved.</p>
+      <p class="footer-tech">Engineered with Three.js 3D Scrollytelling &amp; Dark Theatre Lighting</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
