@@ -434,50 +434,67 @@
     termObs.observe(termSection);
   }
 
-  /* ── 4. 3D SCROLL FLIP-TO-LEFT FOR THE 4 CAPABILITY POINTERS ────────────── */
-  const matrixCards = document.querySelectorAll('.matrix-card-3d');
+  /* ── 4. 3D SCROLL FLIP-TO-LEFT & CLICK FLIP FOR THE 4 CAPABILITY POINTERS ── */
+  const flipCards = document.querySelectorAll('.matrix-card-flip');
   const matrixContainer = document.getElementById('capabilityMatrix');
 
-  if (matrixContainer && matrixCards.length > 0) {
-    const cardFlipObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Trigger 1-by-1 flip to left
-            matrixCards.forEach((card, idx) => {
-              setTimeout(() => {
-                card.classList.add('flipped-in');
-              }, idx * 160); // 160ms sequential stagger
-            });
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
+  // 1. Scroll-Driven 1-by-1 Flip to Left
+  function checkCardFlipsOnScroll() {
+    if (!matrixContainer || flipCards.length === 0) return;
 
-    cardFlipObserver.observe(matrixContainer);
+    const rect = matrixContainer.getBoundingClientRect();
+    const windowH = window.innerHeight;
+
+    // Calculate how far into the matrix section the user has scrolled
+    // Trigger points for Card 1, 2, 3, 4
+    flipCards.forEach((card, idx) => {
+      const cardRect = card.getBoundingClientRect();
+      // When the card top is past 65% of viewport height, flip it to the left!
+      const triggerPoint = windowH * 0.72;
+      
+      if (cardRect.top < triggerPoint) {
+        card.classList.add('is-flipped');
+      } else {
+        card.classList.remove('is-flipped');
+      }
+    });
   }
 
-  // Interactive 3D Parallax Tilt on Hover (when flipped in)
-  matrixCards.forEach((card) => {
+  window.addEventListener('scroll', checkCardFlipsOnScroll, { passive: true });
+  // Initial check
+  setTimeout(checkCardFlipsOnScroll, 300);
+
+  // 2. Click to toggle flip manually
+  flipCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('is-flipped');
+    });
+
+    // 3D Parallax tilt on hover
     card.addEventListener('mousemove', (e) => {
-      if (!card.classList.contains('flipped-in')) return;
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -8;
-      const rotateY = ((x - centerX) / centerX) * 8;
+      const rotateX = ((y - centerY) / centerY) * -6;
+      const rotateY = ((x - centerX) / centerX) * 6;
 
-      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      const inner = card.querySelector('.flip-card-inner');
+      if (inner) {
+        const baseFlip = card.classList.contains('is-flipped') ? -180 : 0;
+        inner.style.transform = `rotateY(${baseFlip + rotateY}deg) rotateX(${rotateX}deg) translateY(-4px)`;
+      }
+
       card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
       card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
     });
 
     card.addEventListener('mouseleave', () => {
-      if (card.classList.contains('flipped-in')) {
-        card.style.transform = 'perspective(1000px) rotateY(0deg) translateX(0) scale(1)';
+      const inner = card.querySelector('.flip-card-inner');
+      if (inner) {
+        const baseFlip = card.classList.contains('is-flipped') ? -180 : 0;
+        inner.style.transform = `rotateY(${baseFlip}deg) rotateX(0deg) translateY(0px)`;
       }
     });
   });
