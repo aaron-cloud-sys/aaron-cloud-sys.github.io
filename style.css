@@ -41,7 +41,6 @@ html {
   background-color: var(--bg-pitch);
   color: var(--text-pure);
   font-family: var(--font-main);
-  overflow-x: hidden;
 }
 
 body {
@@ -456,12 +455,12 @@ body {
 
 /* HUD Overlay Bar */
 .hud-top-bar {
+  display: none !important;
   position: absolute;
   top: 90px;
   left: 0;
   width: 100%;
   padding: 0 48px;
-  display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 30;

@@ -12,6 +12,28 @@
 (function () {
   'use strict';
 
+  function triggerHeroEntrance() {
+    if (typeof gsap !== 'undefined') {
+      gsap.from('.brand-title span', {
+        duration: 1.0,
+        y: 60,
+        opacity: 0,
+        stagger: 0.15,
+        ease: 'power4.out'
+      });
+      gsap.from('.hero-status-pill, .discipline-ribbon, .hero-lead, .hero-ctas', {
+        duration: 0.8,
+        y: 30,
+        opacity: 0,
+        stagger: 0.1,
+        ease: 'power3.out',
+        delay: 0.2
+      });
+    }
+  }
+
+  triggerHeroEntrance();
+
   /* ── 1. SPOTLIGHT CURSOR FOLLOWER ────────────────────────────────────────── */
   const cursorSpot = document.getElementById('cursorSpotlight');
   let mx = window.innerWidth / 2, my = window.innerHeight / 2;
@@ -32,68 +54,94 @@
   }
   renderCursor();
 
-  /* ── 2. THREE.JS 3D HARDWARE ARCHITECTURE SCENE ─────────────────────────── */
+  /* ── 2. THREE.JS 3D HARDWARE ARCHITECTURE SCENE (LUXURY CAD MODEL) ─────── */
   const container = document.getElementById('webgl-container');
   if (container) {
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000000, 0.02);
 
     const camera = new THREE.PerspectiveCamera(
-      42,
+      40,
       container.clientWidth / container.clientHeight,
       0.1,
       1000
     );
-    camera.position.set(0, 3, 26);
+    camera.position.set(0, 2.8, 30);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      logarithmicDepthBuffer: true,
+      powerPreference: "high-performance"
+    });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.3;
+    renderer.toneMappingExposure = 1.2;
     container.appendChild(renderer.domElement);
 
-    // ── 3D Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    // ── Studio Stage Lighting (Apple Product Reveal Style)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
     scene.add(ambientLight);
 
-    const mainSpot = new THREE.SpotLight(0xffffff, 5.0);
-    mainSpot.position.set(0, 30, 12);
-    mainSpot.angle = Math.PI / 4.5;
-    mainSpot.penumbra = 0.85;
-    mainSpot.castShadow = true;
-    scene.add(mainSpot);
+    const mainKeyLight = new THREE.SpotLight(0xffffff, 5.5);
+    mainKeyLight.position.set(5, 36, 18);
+    mainKeyLight.angle = Math.PI / 3.8;
+    mainKeyLight.penumbra = 0.85;
+    mainKeyLight.castShadow = true;
+    scene.add(mainKeyLight);
 
-    const cyanRim = new THREE.PointLight(0x06b6d4, 4, 35);
-    cyanRim.position.set(-18, 10, -6);
-    scene.add(cyanRim);
+    const leftRimLight = new THREE.PointLight(0xffffff, 3.0, 50);
+    leftRimLight.position.set(-20, 15, -8);
+    scene.add(leftRimLight);
 
-    const blueRim = new THREE.PointLight(0x3b82f6, 4, 35);
-    blueRim.position.set(18, -8, 6);
-    scene.add(blueRim);
+    const rightRimLight = new THREE.PointLight(0xe4e4e7, 2.8, 50);
+    rightRimLight.position.set(20, -6, 10);
+    scene.add(rightRimLight);
 
-    const purpleUnder = new THREE.PointLight(0x8b5cf6, 3, 25);
-    purpleUnder.position.set(0, -12, 0);
-    scene.add(purpleUnder);
+    const bottomFillLight = new THREE.PointLight(0xd4d4d8, 2.0, 35);
+    bottomFillLight.position.set(0, -14, 0);
+    scene.add(bottomFillLight);
 
-    // ── Dust Particles
-    const particleCount = 180;
+    // ── Ground Soft Ambient Shadow Plane
+    const shadowCanvas = document.createElement('canvas');
+    shadowCanvas.width = 512;
+    shadowCanvas.height = 512;
+    const sCtx = shadowCanvas.getContext('2d');
+    const sGrad = sCtx.createRadialGradient(256, 256, 0, 256, 256, 256);
+    sGrad.addColorStop(0, 'rgba(0, 0, 0, 0.22)');
+    sGrad.addColorStop(0.3, 'rgba(0, 0, 0, 0.12)');
+    sGrad.addColorStop(0.6, 'rgba(0, 0, 0, 0.04)');
+    sGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    sCtx.fillStyle = sGrad;
+    sCtx.fillRect(0, 0, 512, 512);
+
+    const groundShadowMat = new THREE.MeshBasicMaterial({
+      map: new THREE.CanvasTexture(shadowCanvas),
+      transparent: true,
+      depthWrite: false
+    });
+    const groundShadow = new THREE.Mesh(new THREE.PlaneGeometry(36, 24), groundShadowMat);
+    groundShadow.rotation.x = -Math.PI / 2;
+    groundShadow.position.y = -6.5;
+    scene.add(groundShadow);
+
+    // ── Subtle Atmospheric Silver Particles
+    const particleCount = 140;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount * 3; i += 3) {
-      particlePositions[i] = (Math.random() - 0.5) * 35;
-      particlePositions[i + 1] = (Math.random() - 0.5) * 30;
-      particlePositions[i + 2] = (Math.random() - 0.5) * 35;
+      particlePositions[i] = (Math.random() - 0.5) * 36;
+      particlePositions[i + 1] = (Math.random() - 0.5) * 28;
+      particlePositions[i + 2] = (Math.random() - 0.5) * 36;
     }
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
     const particleMat = new THREE.PointsMaterial({
-      color: 0x06b6d4,
-      size: 0.12,
+      color: 0x888899,
+      size: 0.09,
       transparent: true,
-      opacity: 0.45,
-      blending: THREE.AdditiveBlending
+      opacity: 0.3
     });
     const particleMesh = new THREE.Points(particleGeo, particleMat);
     scene.add(particleMesh);
@@ -102,123 +150,389 @@
     const modelMaster = new THREE.Group();
     scene.add(modelMaster);
 
-    const titaniumDark = new THREE.MeshStandardMaterial({ color: 0x121216, metalness: 0.9, roughness: 0.22 });
-    const aluminumSpace = new THREE.MeshStandardMaterial({ color: 0x1a1a22, metalness: 0.85, roughness: 0.3 });
-    const logicBoardMat = new THREE.MeshStandardMaterial({ color: 0x07111a, metalness: 0.7, roughness: 0.4 });
-    const chipGoldMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.98, roughness: 0.12, emissive: 0xd97706, emissiveIntensity: 0.25 });
-    const circuitGlowMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.6 });
-    const glassScreenMat = new THREE.MeshPhysicalMaterial({ color: 0x020408, metalness: 0.2, roughness: 0.05, transmission: 0.6, transparent: true, opacity: 0.95, reflectivity: 0.95 });
+    // ── Materials (Precision Luxury CAD Anodized Finishes)
+    const spaceBlackAnodized = new THREE.MeshStandardMaterial({
+      color: 0x141417,
+      metalness: 0.88,
+      roughness: 0.28
+    });
+    const spaceGrayAluminum = new THREE.MeshStandardMaterial({
+      color: 0x222228,
+      metalness: 0.85,
+      roughness: 0.32
+    });
+    const polishedSilverTrim = new THREE.MeshStandardMaterial({
+      color: 0xf4f4f6,
+      metalness: 0.95,
+      roughness: 0.15
+    });
+    const matteBezelMat = new THREE.MeshStandardMaterial({
+      color: 0x08080a,
+      metalness: 0.5,
+      roughness: 0.5
+    });
+    const glassScreenMat = new THREE.MeshPhysicalMaterial({
+      color: 0x050508,
+      metalness: 0.1,
+      roughness: 0.04,
+      transmission: 0.15,
+      transparent: true,
+      opacity: 0.96,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.05
+    });
 
-    // Layer 1: Display
+    // ── LAYER 1: DISPLAY & RETINA 4K CANVAS (INTERFACE DECK) ─────────────────
     const layerDisplay = new THREE.Group();
-    const lidMesh = new THREE.Mesh(new THREE.BoxGeometry(13, 0.2, 8.5), titaniumDark);
-    layerDisplay.add(lidMesh);
-    const screenMesh = new THREE.Mesh(new THREE.PlaneGeometry(12.2, 7.7), glassScreenMat);
-    screenMesh.rotation.x = Math.PI / 2;
-    screenMesh.position.y = 0.11;
-    layerDisplay.add(screenMesh);
+    layerDisplay.position.set(0, 0.18, -4.5); // Back hinge anchor position
 
+    const lidContainer = new THREE.Group();
+    layerDisplay.add(lidContainer);
+
+    // Laptop Lid Unibody Shell (offset forward by +4.5 so hinge is at local origin)
+    const lidShell = new THREE.Mesh(new THREE.BoxGeometry(13.4, 0.22, 9.0), spaceBlackAnodized);
+    lidShell.position.set(0, 0, 4.5);
+    lidContainer.add(lidShell);
+
+    // Bezel Border (on the inside face of the lid)
+    const screenBezel = new THREE.Mesh(new THREE.BoxGeometry(13.1, 0.05, 8.7), matteBezelMat);
+    screenBezel.position.set(0, -0.10, 4.5);
+    lidContainer.add(screenBezel);
+
+    // Polished Silver Monogram Plate on the outer back face
+    const lidLogo = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.04, 1.6), polishedSilverTrim);
+    lidLogo.position.set(0, 0.115, 4.5);
+    lidContainer.add(lidLogo);
+
+    // High-Resolution 2048x1280 Retina Dashboard Canvas
     const canvasUI = document.createElement('canvas');
-    canvasUI.width = 1024;
-    canvasUI.height = 640;
+    canvasUI.width = 2048;
+    canvasUI.height = 1280;
     const ctxUI = canvasUI.getContext('2d');
-    ctxUI.fillStyle = '#040711';
-    ctxUI.fillRect(0, 0, 1024, 640);
-    ctxUI.strokeStyle = '#06b6d4';
-    ctxUI.lineWidth = 3;
-    ctxUI.strokeRect(30, 30, 964, 580);
-    ctxUI.fillStyle = '#ffffff';
-    ctxUI.font = 'bold 36px monospace';
-    ctxUI.fillText('// AYUSH SWAIN — EXECUTIVE FINANCIAL SUITE', 60, 95);
-    ctxUI.fillStyle = '#34d399';
-    ctxUI.font = '22px monospace';
-    ctxUI.fillText('STATUS: LEDGER RECONCILIATION COMPLETE [99.8% PRECISION]', 60, 145);
-    ctxUI.fillStyle = '#60a5fa';
-    ctxUI.fillText('GeM PORTAL: 150+ POs (₹3.4Cr+ VALUE) VALIDATED', 60, 190);
-    ctxUI.fillStyle = '#c084fc';
-    ctxUI.fillText('AGENTIC AI: 60% WORKFLOW ACCELERATION', 60, 235);
-    ctxUI.strokeStyle = 'rgba(6, 182, 212, 0.4)';
-    ctxUI.lineWidth = 1.5;
-    for (let x = 60; x < 960; x += 60) {
+
+    // Canvas Background & Grid
+    ctxUI.fillStyle = '#09090c';
+    ctxUI.fillRect(0, 0, 2048, 1280);
+
+    // Ambient Top Highlight
+    const gradHdr = ctxUI.createLinearGradient(0, 0, 0, 400);
+    gradHdr.addColorStop(0, 'rgba(255, 255, 255, 0.04)');
+    gradHdr.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctxUI.fillStyle = gradHdr;
+    ctxUI.fillRect(0, 0, 2048, 400);
+
+    // Architectural Wire Grid
+    ctxUI.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+    ctxUI.lineWidth = 1;
+    for (let x = 80; x < 2000; x += 120) {
       ctxUI.beginPath();
-      ctxUI.moveTo(x, 280);
-      ctxUI.lineTo(x, 560);
+      ctxUI.moveTo(x, 180);
+      ctxUI.lineTo(x, 1200);
       ctxUI.stroke();
     }
-    ctxUI.strokeStyle = '#10b981';
-    ctxUI.lineWidth = 4;
+    for (let y = 180; y < 1200; y += 120) {
+      ctxUI.beginPath();
+      ctxUI.moveTo(80, y);
+      ctxUI.lineTo(1968, y);
+      ctxUI.stroke();
+    }
+
+    // Top Navigation / Window Header
+    ctxUI.fillStyle = '#141419';
+    ctxUI.fillRect(80, 70, 1888, 80);
+    ctxUI.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctxUI.lineWidth = 2;
+    ctxUI.strokeRect(80, 70, 1888, 80);
+
+    // Window Dots
+    ctxUI.fillStyle = '#52525b';
+    ctxUI.beginPath(); ctxUI.arc(120, 110, 10, 0, Math.PI * 2); ctxUI.fill();
+    ctxUI.fillStyle = '#71717a';
+    ctxUI.beginPath(); ctxUI.arc(155, 110, 10, 0, Math.PI * 2); ctxUI.fill();
+    ctxUI.fillStyle = '#a1a1aa';
+    ctxUI.beginPath(); ctxUI.arc(190, 110, 10, 0, Math.PI * 2); ctxUI.fill();
+
+    ctxUI.fillStyle = '#ffffff';
+    ctxUI.font = 'bold 30px "Space Grotesk", sans-serif';
+    ctxUI.fillText('AYUSH SWAIN — EXECUTIVE FINANCIAL TELEMETRY', 240, 118);
+
+    ctxUI.fillStyle = '#22c55e';
+    ctxUI.font = 'bold 22px "JetBrains Mono", monospace';
+    ctxUI.fillText('● SYSTEM STATUS: 100% OPERATIONAL', 1500, 118);
+
+    // 3 Left Telemetry KPI Cards
+    const kpis = [
+      { label: 'LEDGER RECONCILIATION', val: '₹95,00,000+', sub: '99.8% Mathematical Precision (200+ Accts)' },
+      { label: 'PROCUREMENT LIFECYCLE', val: '150+ POs (₹3.4Cr+)', sub: 'Zero GeM Compliance Rejections' },
+      { label: 'AGENTIC AI PIPELINE', val: '60% Turnaround', sub: 'Autonomous Extraction & ERP Ingestion' }
+    ];
+
+    kpis.forEach((k, idx) => {
+      const cardY = 190 + idx * 160;
+      ctxUI.fillStyle = '#111116';
+      ctxUI.fillRect(80, cardY, 820, 135);
+      ctxUI.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctxUI.lineWidth = 2;
+      ctxUI.strokeRect(80, cardY, 820, 135);
+
+      ctxUI.fillStyle = '#a1a1aa';
+      ctxUI.font = 'bold 20px "JetBrains Mono", monospace';
+      ctxUI.fillText(`// ${k.label}`, 110, cardY + 40);
+
+      ctxUI.fillStyle = '#ffffff';
+      ctxUI.font = 'bold 36px "Space Grotesk", sans-serif';
+      ctxUI.fillText(k.val, 110, cardY + 85);
+
+      ctxUI.fillStyle = '#71717a';
+      ctxUI.font = '19px "Plus Jakarta Sans", sans-serif';
+      ctxUI.fillText(k.sub, 110, cardY + 118);
+    });
+
+    // Right High-Density Chart Box
+    ctxUI.fillStyle = '#111116';
+    ctxUI.fillRect(940, 190, 1028, 455);
+    ctxUI.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctxUI.lineWidth = 2;
+    ctxUI.strokeRect(940, 190, 1028, 455);
+
+    ctxUI.fillStyle = '#ffffff';
+    ctxUI.font = 'bold 24px "Space Grotesk", sans-serif';
+    ctxUI.fillText('CUMULATIVE AUDIT VELOCITY (AI AGENT ACCELERATION)', 980, 240);
+
+    // Chart Vector Path
+    const pts = [
+      [980, 580], [1120, 530], [1280, 550], [1440, 420], [1600, 390], [1780, 320], [1920, 290]
+    ];
+    const chartGrad = ctxUI.createLinearGradient(0, 280, 0, 600);
+    chartGrad.addColorStop(0, 'rgba(255, 255, 255, 0.22)');
+    chartGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctxUI.fillStyle = chartGrad;
     ctxUI.beginPath();
-    ctxUI.moveTo(60, 520);
-    ctxUI.lineTo(240, 460);
-    ctxUI.lineTo(450, 490);
-    ctxUI.lineTo(650, 380);
-    ctxUI.lineTo(850, 340);
-    ctxUI.lineTo(950, 310);
+    ctxUI.moveTo(pts[0][0], pts[0][1]);
+    pts.forEach(p => ctxUI.lineTo(p[0], p[1]));
+    ctxUI.lineTo(1920, 600);
+    ctxUI.lineTo(980, 600);
+    ctxUI.closePath();
+    ctxUI.fill();
+
+    ctxUI.strokeStyle = '#ffffff';
+    ctxUI.lineWidth = 5;
+    ctxUI.beginPath();
+    ctxUI.moveTo(pts[0][0], pts[0][1]);
+    pts.forEach(p => ctxUI.lineTo(p[0], p[1]));
     ctxUI.stroke();
 
-    const displayGraphicMat = new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(canvasUI) });
-    const displayGraphicMesh = new THREE.Mesh(new THREE.PlaneGeometry(11.8, 7.3), displayGraphicMat);
-    displayGraphicMesh.rotation.x = -Math.PI / 2;
-    displayGraphicMesh.position.y = 0.12;
-    layerDisplay.add(displayGraphicMesh);
+    pts.forEach(p => {
+      ctxUI.fillStyle = '#ffffff';
+      ctxUI.beginPath(); ctxUI.arc(p[0], p[1], 8, 0, Math.PI * 2); ctxUI.fill();
+      ctxUI.strokeStyle = '#09090c';
+      ctxUI.lineWidth = 3;
+      ctxUI.stroke();
+    });
+
+    // Bottom Terminal Stream Log on Screen
+    ctxUI.fillStyle = '#0c0c10';
+    ctxUI.fillRect(80, 690, 1888, 510);
+    ctxUI.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctxUI.lineWidth = 2;
+    ctxUI.strokeRect(80, 690, 1888, 510);
+
+    const logs = [
+      '▶ [CORE_EXECUTION] Mounting dual-entry multi-entity hospital ledger pipeline...',
+      '✔ Ingested 200+ distinct GL accounts (KIMS Healthcare + Corporate divisions)',
+      '✔ Reconciled DR/CR variance: Verified ₹95,00,000.00 entries (Delta = ₹0.00)',
+      '✔ GeM Portal Engine: 150+ POs cross-verified with statutory dispatch logs',
+      '✔ Agentic Ingestion Workflow: Latency reduced from 4.5 hrs to 1.8 hrs (-60%)',
+      '✔ Audit Compliance Certificate: Verified 100% Zero Defect filing status'
+    ];
+
+    logs.forEach((line, i) => {
+      ctxUI.fillStyle = i === 0 ? '#ffffff' : (i === 2 || i === 5 ? '#22c55e' : '#a1a1aa');
+      ctxUI.font = '24px "JetBrains Mono", monospace';
+      ctxUI.fillText(line, 120, 750 + i * 72);
+    });
+
+    const screenTex = new THREE.CanvasTexture(canvasUI);
+    screenTex.anisotropy = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 16;
+    screenTex.minFilter = THREE.LinearMipmapLinearFilter;
+    screenTex.magFilter = THREE.LinearFilter;
+    screenTex.generateMipmaps = true;
+    screenTex.needsUpdate = true;
+
+    const displayGraphicMat = new THREE.MeshBasicMaterial({
+      map: screenTex,
+      side: THREE.FrontSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1.0,
+      polygonOffsetUnits: -1.0,
+      depthTest: true,
+      depthWrite: true
+    });
+    const displayGraphicMesh = new THREE.Mesh(new THREE.PlaneGeometry(12.3, 7.7), displayGraphicMat);
+    displayGraphicMesh.rotation.x = Math.PI / 2;
+    displayGraphicMesh.position.set(0, -0.128, 4.5);
+    lidContainer.add(displayGraphicMesh);
+
+    // Liquid Retina XDR Glass Sheen Layer (Subtle Protective Reflection)
+    const screenGlassMat = new THREE.MeshPhysicalMaterial({
+      color: 0x000000,
+      transparent: true,
+      opacity: 0.05,
+      roughness: 0.04,
+      metalness: 0.2,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.03,
+      side: THREE.FrontSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -2.0,
+      polygonOffsetUnits: -2.0
+    });
+    const screenGlassMesh = new THREE.Mesh(new THREE.PlaneGeometry(12.3, 7.7), screenGlassMat);
+    screenGlassMesh.rotation.x = Math.PI / 2;
+    screenGlassMesh.position.set(0, -0.131, 4.5);
+    lidContainer.add(screenGlassMesh);
+
     modelMaster.add(layerDisplay);
 
-    // Layer 2: Keyboard
+    // ── LAYER 2: KEYBOARD DECK & TRACKPAD (AUTOMATION DECK) ──────────────────
     const layerKeyboard = new THREE.Group();
-    layerKeyboard.add(new THREE.Mesh(new THREE.BoxGeometry(13, 0.28, 8.8), aluminumSpace));
-    const trackpadMesh = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.05, 3.0), new THREE.MeshStandardMaterial({ color: 0x0f0f14, metalness: 0.9, roughness: 0.2 }));
-    trackpadMesh.position.set(0, 0.16, 2.4);
+
+    // Top Base Unibody Deck
+    const deckMesh = new THREE.Mesh(new THREE.BoxGeometry(13.4, 0.32, 9.0), spaceGrayAluminum);
+    layerKeyboard.add(deckMesh);
+
+    // Recessed Keyboard Tray
+    const keyTray = new THREE.Mesh(new THREE.BoxGeometry(12.0, 0.04, 4.8), new THREE.MeshStandardMaterial({
+      color: 0x0f0f13,
+      metalness: 0.6,
+      roughness: 0.5
+    }));
+    keyTray.position.set(0, 0.16, -1.3);
+    layerKeyboard.add(keyTray);
+
+    // Glass Trackpad with Polished Chamfer Border
+    const trackpadMesh = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.04, 3.1), new THREE.MeshStandardMaterial({
+      color: 0x141418,
+      metalness: 0.8,
+      roughness: 0.2
+    }));
+    trackpadMesh.position.set(0, 0.17, 2.3);
     layerKeyboard.add(trackpadMesh);
 
-    const keyMat = new THREE.MeshStandardMaterial({ color: 0x08080b, metalness: 0.4, roughness: 0.6 });
+    const trackpadBorder = new THREE.Mesh(new THREE.BoxGeometry(4.86, 0.02, 3.16), polishedSilverTrim);
+    trackpadBorder.position.set(0, 0.155, 2.3);
+    layerKeyboard.add(trackpadBorder);
+
+    // Backlit Individual Chiclet Keys
+    const keyMat = new THREE.MeshStandardMaterial({
+      color: 0x0a0a0d,
+      metalness: 0.35,
+      roughness: 0.55
+    });
     for (let r = 0; r < 5; r++) {
       for (let c = 0; c < 14; c++) {
-        const keyMesh = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.08, 0.65), keyMat);
-        keyMesh.position.set((c - 14 / 2 + 0.5) * 0.78, 0.16, (r - 5 / 2 + 0.5) * 0.78 - 1.1);
+        if (r === 4 && c >= 4 && c <= 9) continue;
+
+        const isModifier = (r === 0) || (c === 0) || (c === 13) || (r === 4);
+        const kw = isModifier ? 0.78 : 0.68;
+        const keyMesh = new THREE.Mesh(new THREE.BoxGeometry(kw, 0.08, 0.68), keyMat);
+        keyMesh.position.set((c - 14 / 2 + 0.5) * 0.82, 0.20, (r - 5 / 2 + 0.5) * 0.82 - 1.3);
         layerKeyboard.add(keyMesh);
       }
     }
+    const spacebar = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.08, 0.68), keyMat);
+    spacebar.position.set(0, 0.20, (4 - 5 / 2 + 0.5) * 0.82 - 1.3);
+    layerKeyboard.add(spacebar);
+
     modelMaster.add(layerKeyboard);
 
-    // Layer 3: Logic Board
+    // ── LAYER 3: LOGIC BOARD & SILICON (COMPUTATIONAL CORE) ──────────────────
     const layerLogicBoard = new THREE.Group();
-    layerLogicBoard.add(new THREE.Mesh(new THREE.BoxGeometry(12.4, 0.12, 8.0), logicBoardMat));
-    const chipMesh = new THREE.Mesh(new THREE.BoxGeometry(3.0, 0.25, 3.0), chipGoldMat);
-    chipMesh.position.set(0, 0.16, 0);
-    layerLogicBoard.add(chipMesh);
 
-    const ringMesh = new THREE.Mesh(new THREE.RingGeometry(2.0, 2.4, 32), new THREE.MeshBasicMaterial({ color: 0x06b6d4, side: THREE.DoubleSide }));
+    const pcbBoard = new THREE.Mesh(new THREE.BoxGeometry(12.8, 0.14, 8.2), new THREE.MeshStandardMaterial({
+      color: 0x111116,
+      metalness: 0.7,
+      roughness: 0.35
+    }));
+    layerLogicBoard.add(pcbBoard);
+
+    const cpuChip = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.24, 3.2), new THREE.MeshStandardMaterial({
+      color: 0xf4f4f7,
+      metalness: 0.98,
+      roughness: 0.12,
+      emissive: 0x181820,
+      emissiveIntensity: 0.15
+    }));
+    cpuChip.position.set(0, 0.16, -0.2);
+    layerLogicBoard.add(cpuChip);
+
+    const ringMesh = new THREE.Mesh(new THREE.RingGeometry(2.1, 2.45, 48), new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      side: THREE.DoubleSide
+    }));
     ringMesh.rotation.x = Math.PI / 2;
-    ringMesh.position.set(0, 0.2, 0);
+    ringMesh.position.set(0, 0.22, -0.2);
     layerLogicBoard.add(ringMesh);
 
-    for (let i = -1; i <= 1; i += 2) {
-      const memMesh = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.18, 2.2), titaniumDark);
-      memMesh.position.set(i * 3.4, 0.14, -0.4);
-      layerLogicBoard.add(memMesh);
-    }
-    const circuitMesh = new THREE.Mesh(new THREE.PlaneGeometry(11.4, 7.0, 10, 6), circuitGlowMat);
+    const circuitMesh = new THREE.Mesh(new THREE.PlaneGeometry(11.8, 7.2, 14, 8), new THREE.MeshBasicMaterial({
+      color: 0x888899,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.5
+    }));
     circuitMesh.rotation.x = Math.PI / 2;
-    circuitMesh.position.set(0, 0.1, 0);
+    circuitMesh.position.set(0, 0.11, 0);
     layerLogicBoard.add(circuitMesh);
+
+    for (let i = -1; i <= 1; i += 2) {
+      const nand = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.18, 2.4), new THREE.MeshStandardMaterial({
+        color: 0x1c1c24,
+        metalness: 0.85,
+        roughness: 0.2
+      }));
+      nand.position.set(i * 3.6, 0.16, -0.6);
+      layerLogicBoard.add(nand);
+
+      const pipe = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 4.2, 16), new THREE.MeshStandardMaterial({
+        color: 0xb45309,
+        metalness: 0.9,
+        roughness: 0.2
+      }));
+      pipe.rotation.z = Math.PI / 2;
+      pipe.position.set(i * 2.2, 0.18, 1.8);
+      layerLogicBoard.add(pipe);
+    }
+
     modelMaster.add(layerLogicBoard);
 
-    // Layer 4: Chassis
+    // ── LAYER 4: CHASSIS & LOGISTICS BASE (FOUNDATIONAL BASE) ────────────────
     const layerChassis = new THREE.Group();
-    layerChassis.add(new THREE.Mesh(new THREE.BoxGeometry(13, 0.35, 8.8), titaniumDark));
-    const batMat = new THREE.MeshStandardMaterial({ color: 0x0c0c10, metalness: 0.5, roughness: 0.5 });
+
+    const chassisBase = new THREE.Mesh(new THREE.BoxGeometry(13.4, 0.38, 9.0), spaceBlackAnodized);
+    layerChassis.add(chassisBase);
+
+    const batMat = new THREE.MeshStandardMaterial({
+      color: 0x0c0c10,
+      metalness: 0.5,
+      roughness: 0.6
+    });
     for (let b = 0; b < 6; b++) {
-      const batMesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.18, 3.8), batMat);
-      batMesh.position.set((b - 2.5) * 1.9, 0.22, 1.6);
+      const batMesh = new THREE.Mesh(new THREE.BoxGeometry(1.75, 0.22, 3.8), batMat);
+      batMesh.position.set((b - 2.5) * 2.0, 0.24, 1.7);
       layerChassis.add(batMesh);
     }
-    const fanMat = new THREE.MeshStandardMaterial({ color: 0x181820, metalness: 0.8, roughness: 0.25 });
-    const fan1 = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.3, 0.2, 24), fanMat);
-    fan1.position.set(-3.8, 0.22, -1.8);
-    const fan2 = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.3, 0.2, 24), fanMat);
-    fan2.position.set(3.8, 0.22, -1.8);
-    layerChassis.add(fan1);
-    layerChassis.add(fan2);
+
+    const fanHousingMat = new THREE.MeshStandardMaterial({ color: 0x181822, metalness: 0.85, roughness: 0.25 });
+    for (let f = -1; f <= 1; f += 2) {
+      const fanHousing = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, 0.22, 32), fanHousingMat);
+      fanHousing.position.set(f * 4.0, 0.24, -2.0);
+      layerChassis.add(fanHousing);
+
+      const fanHub = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 0.26, 24), polishedSilverTrim);
+      fanHub.position.set(f * 4.0, 0.25, -2.0);
+      layerChassis.add(fanHub);
+    }
+
     modelMaster.add(layerChassis);
 
     modelMaster.rotation.x = 0.28;
@@ -242,52 +556,63 @@
     };
     const hudSteps = document.querySelectorAll('.tracker-step');
 
+    function setStepActive(index) {
+      hudSteps.forEach((step, i) => {
+        if (i === index) step.classList.add('active');
+        else step.classList.remove('active');
+      });
+    }
+
+    let baseModelY = -0.5;
+
     function updateScrollyState(progress) {
-      if (progress < 0.18) {
-        layerDisplay.position.set(0, 0.35, 0);
+      if (progress < 0.15) {
+        // Step 0: Assembled (Lid closed, stacked tightly)
+        baseModelY = -0.5;
+        layerDisplay.position.set(0, 0.18, -4.5);
         layerDisplay.rotation.x = 0;
         layerKeyboard.position.set(0, 0, 0);
-        layerLogicBoard.position.set(0, -0.3, 0);
-        layerChassis.position.set(0, -0.6, 0);
+        layerLogicBoard.position.set(0, -0.28, 0);
+        layerChassis.position.set(0, -0.58, 0);
         modelMaster.rotation.x = 0.28;
         modelMaster.rotation.y = -0.38;
         Object.values(cards).forEach((c) => c && c.classList.remove('visible'));
         setStepActive(0);
-      } else if (progress < 0.42) {
-        const t = (progress - 0.18) / 0.24;
-        layerDisplay.position.set(0, 0.35 + t * 0.8, -t * 2.0);
-        layerDisplay.rotation.x = -t * (Math.PI / 2.3);
+      } else if (progress < 0.45) {
+        // Step 1: Opening (Lid smoothly rotates up to 105° on hinge)
+        // Dynamically lower baseModelY so the tall opened display is perfectly centered vertically
+        const t = (progress - 0.15) / 0.30;
+        baseModelY = -0.5 - t * 2.6;
+        layerDisplay.position.set(0, 0.18, -4.5);
+        layerDisplay.rotation.x = -t * 1.85; // 105 degree opening
         layerKeyboard.position.set(0, 0, 0);
-        layerLogicBoard.position.set(0, -0.3, 0);
-        layerChassis.position.set(0, -0.6, 0);
-        modelMaster.rotation.x = 0.28 + t * 0.12;
-        modelMaster.rotation.y = -0.38 - t * 0.22;
+        layerLogicBoard.position.set(0, -0.28, 0);
+        layerChassis.position.set(0, -0.58, 0);
+        modelMaster.rotation.x = 0.28 + t * 0.08;
+        modelMaster.rotation.y = -0.38 - t * 0.12;
         Object.values(cards).forEach((c) => c && c.classList.remove('visible'));
         setStepActive(1);
-      } else if (progress < 0.82) {
-        const t = (progress - 0.42) / 0.40;
-        layerDisplay.position.set(0, 1.15 + t * 5.8, -2.0 - t * 4.2);
-        layerDisplay.rotation.x = -(Math.PI / 2.3) + t * 0.25;
-        layerKeyboard.position.set(0, t * 2.8, t * 3.5);
-        layerLogicBoard.position.set(0, -0.3 - t * 0.4, 0);
-        layerChassis.position.set(0, -0.6 - t * 5.2, -t * 1.5);
-        modelMaster.rotation.x = 0.40 - t * 0.08;
-        modelMaster.rotation.y = -0.60 + t * 0.25;
+      } else if (progress < 0.85) {
+        // Step 2: Deconstructed / Exploded (All 4 layers separate along Y axis)
+        const t = (progress - 0.45) / 0.40;
+        baseModelY = -3.1 + t * 1.5; // Maintain spacious vertical center for the 4 exploding decks
+        layerDisplay.position.set(0, 0.18 + t * 3.8, -4.5 - t * 1.6);
+        layerDisplay.rotation.x = -1.85 + t * 0.45;
+        layerKeyboard.position.set(0, t * 1.4, t * 1.5);
+        layerLogicBoard.position.set(0, -0.28 - t * 1.2, 0);
+        layerChassis.position.set(0, -0.58 - t * 4.4, -t * 1.2);
+        modelMaster.rotation.x = 0.36 - t * 0.06;
+        modelMaster.rotation.y = -0.50 + t * 0.18;
         if (cards.display) cards.display.classList.add('visible');
         if (cards.keyboard) cards.keyboard.classList.add('visible');
         if (cards.logicboard) cards.logicboard.classList.add('visible');
         if (cards.chassis) cards.chassis.classList.add('visible');
         setStepActive(2);
       } else {
+        // Step 3: Inspection
+        baseModelY = -1.3;
         setStepActive(3);
       }
-    }
-
-    function setStepActive(index) {
-      hudSteps.forEach((step, i) => {
-        if (i === index) step.classList.add('active');
-        else step.classList.remove('active');
-      });
     }
 
     window.addEventListener('scroll', () => {
@@ -320,7 +645,7 @@
     }
     if (btnResetView) {
       btnResetView.addEventListener('click', () => {
-        camera.position.set(0, 3, 26);
+        camera.position.set(0, 2.8, 30);
         if (controls) controls.target.set(0, 0, 0);
         modelMaster.rotation.set(0.28, -0.38, 0);
       });
@@ -330,7 +655,8 @@
     function animate() {
       requestAnimationFrame(animate);
       const elapsedTime = clock.getElapsedTime();
-      modelMaster.position.y = Math.sin(elapsedTime * 1.4) * 0.12;
+      modelMaster.position.y = baseModelY + Math.sin(elapsedTime * 1.4) * 0.10;
+      groundShadow.position.y = baseModelY - 6.0;
       if (ringMesh) ringMesh.rotation.z += 0.015;
       if (particleMesh) particleMesh.rotation.y = elapsedTime * 0.02;
       if (controls) controls.update();
@@ -434,25 +760,18 @@
     termObs.observe(termSection);
   }
 
-  /* ── 4. 3D BIDIRECTIONAL SCROLL TURNING (CARDS 1, 2, 3, 4) ───────────────── */
+  /* ── 4. STEP-BASED SCROLL: 1 SCROLL = 1 CARD TURN (BIDIRECTIONAL) ─────────── */
   const flipCards = document.querySelectorAll('.matrix-card-flip');
   const matrixContainer = document.getElementById('capabilityMatrix');
+  let cardStep = 0;            // how many cards are currently turned (0–4)
+  let isLocked = false;        // debounce guard so each wheel tick counts once
+  let isInSection = false;     // whether we're in the card section
 
-  // Trigger individual cards based on scroll position (down AND up)
-  function handleCardScrollTurn() {
-    if (!matrixContainer || flipCards.length === 0) return;
-
-    const windowH = window.innerHeight;
-    const matrixRect = matrixContainer.getBoundingClientRect();
-
-    // Trigger offset thresholds for cards 1, 2, 3, 4
-    const thresholds = [0.85, 0.76, 0.67, 0.58];
-
+  function setCardStep(step) {
+    const newStep = Math.max(0, Math.min(flipCards.length, step));
+    cardStep = newStep;
     flipCards.forEach((card, idx) => {
-      const cardRect = card.getBoundingClientRect();
-      const trigger = windowH * thresholds[idx];
-
-      if (cardRect.top < trigger) {
+      if (idx < cardStep) {
         card.classList.add('turned-to-screen');
       } else {
         card.classList.remove('turned-to-screen');
@@ -460,16 +779,66 @@
     });
   }
 
-  window.addEventListener('scroll', handleCardScrollTurn, { passive: true });
-  setTimeout(handleCardScrollTurn, 250);
+  // Detect when the matrix section enters/exits viewport
+  if (matrixContainer) {
+    const sectionObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { isInSection = e.isIntersecting; });
+    }, { threshold: 0.1 });
+    sectionObs.observe(matrixContainer);
+  }
 
-  // Click to toggle turn manually
+  // Wheel event: each discrete scroll step flips one card
+  window.addEventListener('wheel', (e) => {
+    if (!isInSection || !matrixContainer) return;
+
+    // Only intercept when scrolling into/through the card section
+    const rect = matrixContainer.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+    if (!isVisible) return;
+
+    // Gate: are there still cards to reveal/hide?
+    const scrollingDown = e.deltaY > 0;
+    if (scrollingDown && cardStep >= flipCards.length) return; // all revealed, let page scroll normally
+    if (!scrollingDown && cardStep <= 0) return; // all hidden, let page scroll normally
+
+    // Prevent page scroll while we're revealing cards
+    e.preventDefault();
+
+    if (isLocked) return;
+    isLocked = true;
+
+    if (scrollingDown) {
+      setCardStep(cardStep + 1);
+    } else {
+      setCardStep(cardStep - 1);
+    }
+
+    // Debounce: wait for card flip animation (950ms) before allowing next step
+    setTimeout(() => { isLocked = false; }, 750);
+
+  }, { passive: false });
+
+  // Touch support (swipe up = reveal, swipe down = hide)
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    if (!isInSection) return;
+    const dy = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(dy) < 30) return; // ignore tiny taps
+
+    const swipingUp = dy > 0; // swipe up = reveal next
+    if (swipingUp && cardStep < flipCards.length) {
+      setCardStep(cardStep + 1);
+    } else if (!swipingUp && cardStep > 0) {
+      setCardStep(cardStep - 1);
+    }
+  }, { passive: true });
+
+  // Hover tilt still works on flipped cards
   flipCards.forEach((card) => {
-    card.addEventListener('click', () => {
-      card.classList.toggle('turned-to-screen');
-    });
-
-    // 3D Parallax tilt on hover
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -481,10 +850,9 @@
 
       const inner = card.querySelector('.flip-card-inner');
       if (inner) {
-        const baseRot = card.classList.contains('turned-to-screen') ? 180 : 0;
-        inner.style.transform = `rotateY(${baseRot + rotateY}deg) rotateX(${rotateX}deg) translateY(-4px)`;
+        const base = card.classList.contains('turned-to-screen') ? 180 : 0;
+        inner.style.transform = `rotateY(${base + rotateY}deg) rotateX(${rotateX}deg) translateY(-4px)`;
       }
-
       card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
       card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
     });
@@ -492,8 +860,8 @@
     card.addEventListener('mouseleave', () => {
       const inner = card.querySelector('.flip-card-inner');
       if (inner) {
-        const baseRot = card.classList.contains('turned-to-screen') ? 180 : 0;
-        inner.style.transform = `rotateY(${baseRot}deg) rotateX(0deg) translateY(0px)`;
+        const base = card.classList.contains('turned-to-screen') ? 180 : 0;
+        inner.style.transform = `rotateY(${base}deg) rotateX(0deg) translateY(0px)`;
       }
     });
   });
@@ -680,4 +1048,50 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+
+  /* ── 9. SKIPER58: TEXT-ROLL NAV LINKS ─────────────────────────────────────── */
+  // Wraps each nav link text in .roll-top + .roll-bot for the vertical roll effect
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const text = link.textContent.trim();
+    link.innerHTML = `<span class="roll-top">${text}</span><span class="roll-bot">${text}</span>`;
+  });
+
+  /* ── 10. SKIPER41: PROGRESSIVE BLUR DIVIDERS BETWEEN SECTIONS ────────────── */
+  // Inject a 5-layer progressive blur divider after each major section
+  function makeBlurDivider() {
+    const div = document.createElement('div');
+    div.className = 'prog-blur-divider';
+    for (let i = 0; i < 5; i++) {
+      const step = document.createElement('div');
+      step.className = 'blur-step';
+      div.appendChild(step);
+    }
+    return div;
+  }
+
+  // Insert dividers between sections
+  ['#philosophy', '#trackRecord', '#evidence', '#contact'].forEach(sel => {
+    const section = document.querySelector(sel);
+    if (section && section.previousElementSibling) {
+      section.parentNode.insertBefore(makeBlurDivider(), section);
+    }
+  });
+
+  /* ── 11. B&W TICKER STRIP ──────────────────────────────────────────────────── */
+  // Add a Skiper-style minimal keyword ticker below the hero
+  const hero = document.getElementById('hero');
+  if (hero) {
+    const tags = [
+      'Corporate Finance', 'Operations', 'Agentic AI', 'GST Compliance',
+      'Tally ERP', 'Excel Automation', 'Skyy Rider', 'Multi-Entity Accounting',
+      'Cash Flow', 'Vendor Management', 'AI Agent Builder', 'Workflow Automation',
+    ];
+    const ticker = document.createElement('div');
+    ticker.className = 'bw-ticker-wrap';
+    ticker.innerHTML = `<div class="bw-ticker">
+      ${[...tags, ...tags].map(t => `<span class="bw-ticker-item">${t}</span>`).join('')}
+    </div>`;
+    hero.insertAdjacentElement('afterend', ticker);
+  }
+
 })();

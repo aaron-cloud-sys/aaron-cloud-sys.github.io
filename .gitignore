@@ -1,5 +1,7 @@
-﻿deploy.bat
+deploy.bat
 deploy.ps1
 do_deploy.ps1
 *.docx
 *.mp4
+*.bak
+
