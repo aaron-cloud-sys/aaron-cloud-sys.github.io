@@ -1040,21 +1040,16 @@
   const metricsSection = document.getElementById('metrics');
   if (metricsSection) observerMetrics.observe(metricsSection);
 
-  /* ── 8. GENESIS INTRO SEQUENCE & CONCEPT A MOTION ────────────────────────── */
+  /* ── 8. GENESIS INTRO (Plain Background + Fade-in Email) ─────────────────── */
   const genesisOverlay = document.getElementById('genesisIntro');
-  const typedTextEl = document.getElementById('genesisTypedText');
-  const statusEl = document.getElementById('genesisStatus');
-  const skipBtn = document.getElementById('genesisSkipBtn');
   const flankLeft = document.getElementById('flankLeft');
   const flankRight = document.getElementById('flankRight');
 
-  // Reset scroll to top so Genesis Intro is always viewed from the beginning
+  // Reset scroll to top on genesis entrance
   if (genesisOverlay) {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }
 
-  const emailToType = 'ayushswain161@gmail.com';
-  let typeIndex = 0;
   let introDismissed = false;
 
   function dismissIntro() {
@@ -1063,29 +1058,16 @@
     genesisOverlay.classList.add('dismissed');
     setTimeout(() => {
       if (genesisOverlay.parentNode) genesisOverlay.parentNode.removeChild(genesisOverlay);
-    }, 1000);
-  }
-
-  function runGenesisTypewriter() {
-    if (!typedTextEl) return;
-    if (typeIndex < emailToType.length) {
-      typedTextEl.textContent += emailToType.charAt(typeIndex);
-      typeIndex++;
-      const delay = Math.floor(Math.random() * 40) + 30;
-      setTimeout(runGenesisTypewriter, delay);
-    } else {
-      if (statusEl) statusEl.classList.add('visible');
-      setTimeout(dismissIntro, 700);
-    }
+    }, 1100);
   }
 
   if (genesisOverlay) {
-    setTimeout(runGenesisTypewriter, 300);
-    if (skipBtn) skipBtn.addEventListener('click', dismissIntro);
+    // Let the email smoothly fade in and linger, then dismiss automatically
+    setTimeout(dismissIntro, 2200);
+    genesisOverlay.addEventListener('click', dismissIntro);
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismissIntro();
     });
-    genesisOverlay.addEventListener('click', dismissIntro);
   }
 
   /* ── CONCEPT A: PARALLAX COUNTER-DRIFT FOR TELEMETRY RAILS ────────────────── */
