@@ -1048,6 +1048,11 @@
   const flankLeft = document.getElementById('flankLeft');
   const flankRight = document.getElementById('flankRight');
 
+  // Reset scroll to top so Genesis Intro is always viewed from the beginning
+  if (genesisOverlay) {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }
+
   const emailToType = 'ayushswain161@gmail.com';
   let typeIndex = 0;
   let introDismissed = false;
@@ -1066,16 +1071,16 @@
     if (typeIndex < emailToType.length) {
       typedTextEl.textContent += emailToType.charAt(typeIndex);
       typeIndex++;
-      const delay = Math.floor(Math.random() * 45) + 35;
+      const delay = Math.floor(Math.random() * 40) + 30;
       setTimeout(runGenesisTypewriter, delay);
     } else {
       if (statusEl) statusEl.classList.add('visible');
-      setTimeout(dismissIntro, 650);
+      setTimeout(dismissIntro, 700);
     }
   }
 
   if (genesisOverlay) {
-    setTimeout(runGenesisTypewriter, 350);
+    setTimeout(runGenesisTypewriter, 300);
     if (skipBtn) skipBtn.addEventListener('click', dismissIntro);
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismissIntro();
