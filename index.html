@@ -52,17 +52,48 @@
     </div>
   </header>
 
+  <!-- ══ GENESIS INTRO SEQUENCE (Blank Screen -> Typewriter -> Hero Reveal) ══ -->
+  <div id="genesisIntro" class="genesis-overlay" aria-label="System Initializing">
+    <div class="genesis-terminal">
+      <div class="genesis-badge">
+        <span class="genesis-dot"></span>
+        <span class="genesis-tag">INITIALIZING DIRECT PORTAL ACCESS</span>
+      </div>
+      <div class="genesis-input-wrapper">
+        <span class="genesis-prompt">&gt;</span>
+        <span class="genesis-typed-text" id="genesisTypedText"></span><span class="genesis-cursor">_</span>
+      </div>
+      <div class="genesis-status" id="genesisStatus">
+        <span class="status-icon">✔</span> VERIFIED ARCHIVE ACCESS GRANTED
+      </div>
+      <button class="genesis-skip-btn" id="genesisSkipBtn">Skip [ESC]</button>
+    </div>
+  </div>
+
   <!-- ══ 1. HERO STAGE (Dramatic Chiaroscuro Theatre — inspiration.mp4) ══ -->
   <section id="hero">
-    <!-- Theatrical Side Typography (Inspiration Frame 05) -->
-    <div class="stage-flank flank-left" aria-hidden="true">
-      <span class="stage-tag">// 001 · SPECIFICATION</span>
-      <p class="flank-quote">WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?</p>
+    <!-- Theatrical Side Typography (Concept A: Precision Telemetry Rails) -->
+    <div class="stage-flank flank-left" id="flankLeft" aria-hidden="true">
+      <div class="flank-telemetry-rail">
+        <div class="telemetry-ruler"><span class="ruler-notch"></span><span class="ruler-notch"></span><span class="ruler-notch active"></span></div>
+        <div class="flank-content">
+          <span class="stage-tag">// 001 · SPECIFICATION</span>
+          <p class="flank-quote scramble-text" data-original="WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?">WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?</p>
+        </div>
+      </div>
     </div>
 
-    <div class="stage-flank flank-right" aria-hidden="true">
-      <span class="stage-tag">// SYSTEM STATE: OPERATIONAL</span>
-      <p class="flank-quote">I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.</p>
+    <div class="stage-flank flank-right" id="flankRight" aria-hidden="true">
+      <div class="flank-telemetry-rail">
+        <div class="flank-content text-right">
+          <div class="flank-status-header">
+            <span class="flank-beacon"></span>
+            <span class="stage-tag">// SYSTEM STATE: OPERATIONAL</span>
+          </div>
+          <p class="flank-quote scramble-text" data-original="I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.">I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.</p>
+        </div>
+        <div class="telemetry-ruler"><span class="ruler-notch active"></span><span class="ruler-notch"></span><span class="ruler-notch"></span></div>
+      </div>
     </div>
 
     <!-- Center Hero Content -->
@@ -580,11 +611,6 @@
                 </div>
               </div>
             </div>
-            
-            <a href="#hero" class="replay-btn" id="replayButton">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-              <span>Replay Architecture in Interactive Simulator</span>
-            </a>
           </div>
         </div>
       </div>

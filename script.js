@@ -1040,14 +1040,95 @@
   const metricsSection = document.getElementById('metrics');
   if (metricsSection) observerMetrics.observe(metricsSection);
 
-  /* ── 8. REPLAY INTERACTIVE BUTTON ────────────────────────────────────────── */
-  const replayBtn = document.getElementById('replayButton');
-  if (replayBtn) {
-    replayBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+  /* ── 8. GENESIS INTRO SEQUENCE & CONCEPT A MOTION ────────────────────────── */
+  const genesisOverlay = document.getElementById('genesisIntro');
+  const typedTextEl = document.getElementById('genesisTypedText');
+  const statusEl = document.getElementById('genesisStatus');
+  const skipBtn = document.getElementById('genesisSkipBtn');
+  const flankLeft = document.getElementById('flankLeft');
+  const flankRight = document.getElementById('flankRight');
+
+  const emailToType = 'ayushswain161@gmail.com';
+  let typeIndex = 0;
+  let introDismissed = false;
+
+  function dismissIntro() {
+    if (introDismissed || !genesisOverlay) return;
+    introDismissed = true;
+    genesisOverlay.classList.add('dismissed');
+    setTimeout(() => {
+      if (genesisOverlay.parentNode) genesisOverlay.parentNode.removeChild(genesisOverlay);
+    }, 1000);
   }
+
+  function runGenesisTypewriter() {
+    if (!typedTextEl) return;
+    if (typeIndex < emailToType.length) {
+      typedTextEl.textContent += emailToType.charAt(typeIndex);
+      typeIndex++;
+      const delay = Math.floor(Math.random() * 45) + 35;
+      setTimeout(runGenesisTypewriter, delay);
+    } else {
+      if (statusEl) statusEl.classList.add('visible');
+      setTimeout(dismissIntro, 650);
+    }
+  }
+
+  if (genesisOverlay) {
+    setTimeout(runGenesisTypewriter, 350);
+    if (skipBtn) skipBtn.addEventListener('click', dismissIntro);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismissIntro();
+    });
+    genesisOverlay.addEventListener('click', dismissIntro);
+  }
+
+  /* ── CONCEPT A: PARALLAX COUNTER-DRIFT FOR TELEMETRY RAILS ────────────────── */
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    if (scrollY < window.innerHeight * 1.5) {
+      if (flankLeft) {
+        flankLeft.style.transform = `translateY(calc(-50% - ${scrollY * 0.18}px))`;
+      }
+      if (flankRight) {
+        flankRight.style.transform = `translateY(calc(-50% + ${scrollY * 0.18}px))`;
+      }
+    }
+  });
+
+  /* ── CONCEPT A: CYBERNETIC SCRAMBLE DECRYPT ON HOVER ──────────────────────── */
+  const scrambleChars = '01ABCDEFXYZ_#@%&[]<>*+~';
+  document.querySelectorAll('.scramble-text').forEach((el) => {
+    const originalText = el.getAttribute('data-original') || el.textContent;
+    let scrambleInterval = null;
+
+    el.addEventListener('mouseenter', () => {
+      let iteration = 0;
+      clearInterval(scrambleInterval);
+
+      scrambleInterval = setInterval(() => {
+        el.textContent = originalText
+          .split('')
+          .map((letter, index) => {
+            if (letter === ' ' || letter === '—' || letter === '?' || letter === '.') return letter;
+            if (index < iteration) return originalText[index];
+            return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+          })
+          .join('');
+
+        if (iteration >= originalText.length) {
+          clearInterval(scrambleInterval);
+          el.textContent = originalText;
+        }
+        iteration += 1.2;
+      }, 25);
+    });
+
+    el.addEventListener('mouseleave', () => {
+      clearInterval(scrambleInterval);
+      el.textContent = originalText;
+    });
+  });
 
   /* ── 9. SKIPER58: TEXT-ROLL NAV LINKS ─────────────────────────────────────── */
   // Wraps each nav link text in .roll-top + .roll-bot for the vertical roll effect
