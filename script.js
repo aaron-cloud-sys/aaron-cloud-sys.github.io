@@ -1040,8 +1040,9 @@
   const metricsSection = document.getElementById('metrics');
   if (metricsSection) observerMetrics.observe(metricsSection);
 
-  /* ── 8. GENESIS INTRO (Plain Background + Fade-in Email) ─────────────────── */
+  /* ── 8. GENESIS TYPEWRITER INTRO (Plain Background + Paced Typing) ──────── */
   const genesisOverlay = document.getElementById('genesisIntro');
+  const typedTextEl = document.getElementById('genesisTypedText');
   const flankLeft = document.getElementById('flankLeft');
   const flankRight = document.getElementById('flankRight');
 
@@ -1050,6 +1051,8 @@
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }
 
+  const emailToType = 'ayushswain161@gmail.com';
+  let typeIndex = 0;
   let introDismissed = false;
 
   function dismissIntro() {
@@ -1061,9 +1064,23 @@
     }, 1100);
   }
 
+  function runPacedTypewriter() {
+    if (!typedTextEl || introDismissed) return;
+    if (typeIndex < emailToType.length) {
+      typedTextEl.textContent += emailToType.charAt(typeIndex);
+      typeIndex++;
+      // Deliberate, paced human typing tempo (75ms - 105ms)
+      const charDelay = Math.floor(Math.random() * 30) + 75;
+      setTimeout(runPacedTypewriter, charDelay);
+    } else {
+      // Completed typing: pause for 1.2s to let user read the complete email, then dissolve
+      setTimeout(dismissIntro, 1200);
+    }
+  }
+
   if (genesisOverlay) {
-    // Let the email smoothly fade in and linger, then dismiss automatically
-    setTimeout(dismissIntro, 2200);
+    // Initial pause before typing begins
+    setTimeout(runPacedTypewriter, 400);
     genesisOverlay.addEventListener('click', dismissIntro);
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismissIntro();
