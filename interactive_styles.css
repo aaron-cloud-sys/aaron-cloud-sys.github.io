@@ -667,15 +667,131 @@
   justify-content: center !important;
   opacity: 1 !important;
   visibility: visible !important;
-  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 1.1s, visibility 1.1s !important;
+  clip-path: circle(150% at 50% 50%) !important;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), filter 0.85s, clip-path 0.9s cubic-bezier(0.77, 0, 0.175, 1), visibility 0.9s !important;
+}
+
+.genesis-overlay.morphing {
+  transform: scale(1.04) !important;
 }
 
 .genesis-overlay.dismissed {
   opacity: 0 !important;
   visibility: hidden !important;
-  transform: scale(1.06) !important;
-  filter: blur(8px) !important;
+  transform: scale(1.12) !important;
+  clip-path: circle(0% at 50% 50%) !important;
+  filter: blur(14px) !important;
   pointer-events: none !important;
+}
+
+.genesis-orbit-wrapper {
+  position: relative !important;
+  width: 220px !important;
+  height: 220px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease, filter 0.85s ease !important;
+}
+
+.genesis-orbit-wrapper.morph-explode {
+  transform: scale(2.8) rotate(120deg) !important;
+  opacity: 0 !important;
+  filter: blur(16px) !important;
+}
+
+.genesis-period {
+  color: #000000 !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  margin-left: 2px !important;
+  display: inline-block !important;
+  animation: periodPulse 1.8s infinite ease-in-out !important;
+}
+
+@keyframes periodPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.8;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ── TRANSITION COMMENTARY HUD TOAST ────────────────────────────────────────── */
+.transition-commentary-hud {
+  position: fixed !important;
+  top: 76px !important;
+  right: 24px !important;
+  z-index: 9999 !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transform: translateY(-16px) scale(0.96) !important;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.transition-commentary-hud.active {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+.transition-commentary-hud.fading {
+  opacity: 0 !important;
+  transform: translateY(-10px) scale(0.96) !important;
+  transition: all 0.75s ease !important;
+}
+
+.commentary-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  background: rgba(10, 10, 12, 0.88) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  padding: 8px 16px !important;
+  border-radius: 100px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 255, 255, 0.08) !important;
+}
+
+.commentary-beacon {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 8px #ffffff !important;
+  animation: beaconPulse 1.4s infinite ease-in-out !important;
+}
+
+@keyframes beaconPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.6);
+    opacity: 0.5;
+  }
+}
+
+.commentary-protocol {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  color: #a1a1aa !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+}
+
+.commentary-stream {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.65rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
 }
 
 /* Background Hairline Grid */

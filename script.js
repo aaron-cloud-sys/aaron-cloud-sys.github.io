@@ -1053,13 +1053,44 @@
 
   let introDismissed = false;
 
-  function dismissIntro() {
+  function triggerMorphTransition() {
     if (introDismissed || !genesisOverlay) return;
     introDismissed = true;
-    genesisOverlay.classList.add('dismissed');
+
+    // 1. Trigger iris morph & expansion on orbit wrapper
+    const orbitWrapper = document.querySelector('.genesis-orbit-wrapper');
+    if (orbitWrapper) orbitWrapper.classList.add('morph-explode');
+    genesisOverlay.classList.add('morphing');
+
+    // 2. Iris clip-path dissolve on overlay
+    setTimeout(() => {
+      genesisOverlay.classList.add('dismissed');
+    }, 120);
+
+    // 3. Remove overlay from DOM once animation finishes
     setTimeout(() => {
       if (genesisOverlay.parentNode) genesisOverlay.parentNode.removeChild(genesisOverlay);
-    }, 1100);
+    }, 1000);
+
+    // 4. Activate Transition Commentary HUD on the main stage
+    const commentaryHud = document.getElementById('transitionCommentary');
+    const commentaryStream = document.getElementById('commentaryStream');
+    if (commentaryHud) {
+      setTimeout(() => {
+        commentaryHud.classList.add('active');
+        if (commentaryStream) {
+          commentaryStream.textContent = 'SEQUENCE [a.] EXECUTED · MAINFRAME ONLINE';
+        }
+      }, 350);
+
+      // Auto fade away after 4 seconds
+      setTimeout(() => {
+        commentaryHud.classList.add('fading');
+        setTimeout(() => {
+          if (commentaryHud.parentNode) commentaryHud.parentNode.removeChild(commentaryHud);
+        }, 800);
+      }, 4200);
+    }
   }
 
   if (genesisOverlay) {
@@ -1079,14 +1110,14 @@
         requestAnimationFrame(updatePercent);
       } else {
         percentCountEl.textContent = '100%';
-        setTimeout(dismissIntro, 250);
+        setTimeout(triggerMorphTransition, 200);
       }
     }
     requestAnimationFrame(updatePercent);
 
-    genesisOverlay.addEventListener('click', dismissIntro);
+    genesisOverlay.addEventListener('click', triggerMorphTransition);
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismissIntro();
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') triggerMorphTransition();
     });
   }
 
