@@ -53,35 +53,82 @@
     </div>
   </header>
 
-  <!-- ══ GENESIS WHITE SCREEN INTRO (Letter 'a' + Circular Motion Pointer) ══ -->
+  <!-- ══ GENESIS WHITE SCREEN LUXURY INTRO (Letter 'a' + Precision Kinetic Dial) ══ -->
   <div id="genesisIntro" class="genesis-overlay" aria-label="Welcome Intro">
+    <!-- Fine-art background hairline grid -->
+    <div class="genesis-bg-grid" aria-hidden="true"></div>
+
+    <!-- Editorial Corner Registration Marks -->
+    <div class="genesis-corner corner-tl" aria-hidden="true"></div>
+    <div class="genesis-corner corner-tr" aria-hidden="true"></div>
+    <div class="genesis-corner corner-bl" aria-hidden="true"></div>
+    <div class="genesis-corner corner-br" aria-hidden="true"></div>
+
+    <!-- Top Telemetry Header -->
+    <div class="genesis-telemetry-top">
+      <span class="telemetry-item">AS // ARCHIVE 2026</span>
+      <span class="telemetry-divider">·</span>
+      <span class="telemetry-item">OPUS 01</span>
+      <span class="telemetry-divider">·</span>
+      <span class="telemetry-item">KINETIC CALIBRATION</span>
+    </div>
+
+    <!-- Center Stage Container -->
     <div class="genesis-intro-container">
       <div class="genesis-orbit-wrapper">
-        <!-- Circular Orbit Track SVG -->
-        <svg class="genesis-orbit-svg" viewBox="0 0 200 200">
-          <circle class="orbit-path-base" cx="100" cy="100" r="70" />
-          <circle class="orbit-path-draw" cx="100" cy="100" r="70" />
+        
+        <!-- Precision Dual Concentric Orbit Dial SVG -->
+        <svg class="genesis-orbit-svg" viewBox="0 0 220 220">
+          <!-- Outer Calibrated Track (Dashed Hairline) -->
+          <circle class="orbit-outer-dashed" cx="110" cy="110" r="92" />
+          
+          <!-- Cardinal Tick Marks -->
+          <line class="orbit-tick" x1="110" y1="14" x2="110" y2="22" />
+          <line class="orbit-tick" x1="110" y1="198" x2="110" y2="206" />
+          <line class="orbit-tick" x1="14" y1="110" x2="22" y2="110" />
+          <line class="orbit-tick" x1="198" y1="110" x2="206" y2="110" />
+
+          <!-- Inner Base Guide -->
+          <circle class="orbit-path-base" cx="110" cy="110" r="76" />
+          
+          <!-- Inner Dynamic Animated Tracer Arc -->
+          <circle class="orbit-path-draw" cx="110" cy="110" r="76" />
         </svg>
 
-        <!-- Orbiting Pointer in Circular Motion -->
+        <!-- Orbiting Precision Kinetic Pointer Dial -->
         <div class="genesis-orbit-pointer" id="genesisOrbitPointer">
           <div class="pointer-cursor-head">
-            <svg class="pointer-icon" width="18" height="18" viewBox="0 0 24 24" fill="#000000">
-              <path d="M4 2l16 11-7.5 1.5L9 22 4 2z"/>
-            </svg>
+            <div class="pointer-reticle">
+              <div class="reticle-core"></div>
+              <div class="reticle-ring"></div>
+            </div>
           </div>
         </div>
 
-        <!-- Center Letter 'a' -->
+        <!-- Central Exquisite Letter 'a' -->
         <div class="genesis-letter-center">
           <span class="genesis-letter">a</span>
+          <div class="letter-baseline-marker" aria-hidden="true"></div>
         </div>
       </div>
 
+      <!-- Luxury Brand & Synchronized Progress -->
       <div class="genesis-label-track">
-        <span class="genesis-brand-name">AYUSH SWAIN</span>
-        <span class="genesis-sub-tag">SYSTEM INITIALIZATION</span>
+        <h2 class="genesis-brand-name">AYUSH SWAIN</h2>
+        <div class="genesis-progress-row">
+          <div class="genesis-meter-bar">
+            <div class="meter-bar-fill" id="genesisMeterFill"></div>
+          </div>
+          <span class="genesis-percent-count" id="genesisPercentCount">00%</span>
+        </div>
+        <span class="genesis-sub-tag">SYSTEM INITIALIZATION // 360°</span>
       </div>
+    </div>
+
+    <!-- Bottom Telemetry Footer -->
+    <div class="genesis-telemetry-bottom">
+      <span>LAT 20.2961° N, LONG 85.8245° E</span>
+      <span>CLICK OR PRESS ANY KEY TO SKIP</span>
     </div>
   </div>
 

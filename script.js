@@ -1040,8 +1040,9 @@
   const metricsSection = document.getElementById('metrics');
   if (metricsSection) observerMetrics.observe(metricsSection);
 
-  /* ── 8. GENESIS INTRO (White Screen + Letter 'a' + Circular Orbiting Pointer) ── */
+  /* ── 8. GENESIS LUXURY INTRO (Letter 'a' + Precision Kinetic Orbit Dial) ── */
   const genesisOverlay = document.getElementById('genesisIntro');
+  const percentCountEl = document.getElementById('genesisPercentCount');
   const flankLeft = document.getElementById('flankLeft');
   const flankRight = document.getElementById('flankRight');
 
@@ -1058,12 +1059,31 @@
     genesisOverlay.classList.add('dismissed');
     setTimeout(() => {
       if (genesisOverlay.parentNode) genesisOverlay.parentNode.removeChild(genesisOverlay);
-    }, 950);
+    }, 1100);
   }
 
   if (genesisOverlay) {
-    // Graceful automatic dissolve after 2 slower, cinematic circular revolutions (3.8s)
-    setTimeout(dismissIntro, 3800);
+    // Synchronized percentage interpolation [0% -> 100%] over 3.8s
+    const startTime = performance.now();
+    const duration = 3800;
+
+    function updatePercent(now) {
+      if (introDismissed || !percentCountEl) return;
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const val = Math.floor(eased * 100);
+      percentCountEl.textContent = (val < 10 ? '0' + val : val) + '%';
+      if (progress < 1) {
+        requestAnimationFrame(updatePercent);
+      } else {
+        percentCountEl.textContent = '100%';
+        setTimeout(dismissIntro, 250);
+      }
+    }
+    requestAnimationFrame(updatePercent);
+
     genesisOverlay.addEventListener('click', dismissIntro);
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismissIntro();
