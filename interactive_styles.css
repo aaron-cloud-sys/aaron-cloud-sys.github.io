@@ -654,7 +654,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   GENESIS INTRO (Plain Background + Paced Typewriter Email)
+   GENESIS INTRO (White Screen + Letter 'a' + Circular Motion Orbiting Pointer)
    ══════════════════════════════════════════════════════════════════════════════ */
 
 .genesis-overlay {
@@ -667,46 +667,167 @@
   justify-content: center !important;
   opacity: 1 !important;
   visibility: visible !important;
-  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), transform 1.0s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.0s !important;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s !important;
 }
 
 .genesis-overlay.dismissed {
   opacity: 0 !important;
   visibility: hidden !important;
-  transform: scale(1.03) !important;
+  transform: scale(1.05) !important;
   pointer-events: none !important;
 }
 
-.genesis-plain-content {
-  text-align: center !important;
-  padding: 24px !important;
+.genesis-intro-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
   user-select: none !important;
+}
+
+.genesis-orbit-wrapper {
+  position: relative !important;
+  width: 190px !important;
+  height: 190px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
-.genesis-email {
-  font-family: var(--font-mono), 'Space Grotesk', monospace !important;
-  font-size: clamp(1.8rem, 4.2vw, 3.2rem) !important;
+.genesis-orbit-svg {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform: rotate(-90deg) !important;
+}
+
+.orbit-path-base {
+  fill: none !important;
+  stroke: rgba(0, 0, 0, 0.08) !important;
+  stroke-width: 1.5 !important;
+}
+
+.orbit-path-draw {
+  fill: none !important;
+  stroke: #000000 !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-dasharray: 440 !important;
+  stroke-dashoffset: 440 !important;
+  animation: orbitTrackDraw 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes orbitTrackDraw {
+  0% {
+    stroke-dashoffset: 440;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.genesis-orbit-pointer {
+  position: absolute !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none !important;
+  animation: orbitPointerSweep 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes orbitPointerSweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+.pointer-cursor-head {
+  position: absolute !important;
+  top: 25px !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) rotate(25deg) !important;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.18)) !important;
+}
+
+.pointer-icon {
+  display: block !important;
+}
+
+.genesis-letter-center {
+  position: relative !important;
+  z-index: 3 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transform: translateY(-2px) !important;
+}
+
+.genesis-letter {
+  font-family: 'Space Grotesk', 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+  font-size: 5rem !important;
   font-weight: 700 !important;
   color: #000000 !important;
-  letter-spacing: -0.01em !important;
+  line-height: 1 !important;
+  letter-spacing: -0.04em !important;
   display: inline-block !important;
+  animation: letterEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
-.genesis-cursor {
-  font-family: var(--font-mono), monospace !important;
-  font-size: clamp(1.8rem, 4.2vw, 3.2rem) !important;
+@keyframes letterEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.genesis-label-track {
+  margin-top: 26px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 4px !important;
+  animation: labelFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards !important;
+  opacity: 0 !important;
+}
+
+@keyframes labelFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.genesis-brand-name {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: 0.85rem !important;
   font-weight: 700 !important;
-  color: #10b981 !important;
-  margin-left: 2px !important;
-  animation: cursorBlink 0.75s infinite step-start !important;
+  color: #000000 !important;
+  letter-spacing: 0.25em !important;
+  text-transform: uppercase !important;
 }
 
-@keyframes cursorBlink {
-  50% { opacity: 0; }
+.genesis-sub-tag {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.65rem !important;
+  font-weight: 500 !important;
+  color: #71717a !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
 }
+
 
 /* ── Concept A: Precision Telemetry Rails (Hero Flanks) ──────────────────────── */
 .stage-flank {

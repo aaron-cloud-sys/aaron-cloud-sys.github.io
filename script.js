@@ -1040,19 +1040,16 @@
   const metricsSection = document.getElementById('metrics');
   if (metricsSection) observerMetrics.observe(metricsSection);
 
-  /* ── 8. GENESIS TYPEWRITER INTRO (Plain Background + Paced Typing) ──────── */
+  /* ── 8. GENESIS INTRO (White Screen + Letter 'a' + Circular Orbiting Pointer) ── */
   const genesisOverlay = document.getElementById('genesisIntro');
-  const typedTextEl = document.getElementById('genesisTypedText');
   const flankLeft = document.getElementById('flankLeft');
   const flankRight = document.getElementById('flankRight');
 
-  // Reset scroll to top on genesis entrance
+  // Reset scroll to top on entrance
   if (genesisOverlay) {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }
 
-  const emailToType = 'ayushswain161@gmail.com';
-  let typeIndex = 0;
   let introDismissed = false;
 
   function dismissIntro() {
@@ -1061,26 +1058,12 @@
     genesisOverlay.classList.add('dismissed');
     setTimeout(() => {
       if (genesisOverlay.parentNode) genesisOverlay.parentNode.removeChild(genesisOverlay);
-    }, 1100);
-  }
-
-  function runPacedTypewriter() {
-    if (!typedTextEl || introDismissed) return;
-    if (typeIndex < emailToType.length) {
-      typedTextEl.textContent += emailToType.charAt(typeIndex);
-      typeIndex++;
-      // Deliberate, paced human typing tempo (75ms - 105ms)
-      const charDelay = Math.floor(Math.random() * 30) + 75;
-      setTimeout(runPacedTypewriter, charDelay);
-    } else {
-      // Completed typing: pause for 1.2s to let user read the complete email, then dissolve
-      setTimeout(dismissIntro, 1200);
-    }
+    }, 950);
   }
 
   if (genesisOverlay) {
-    // Initial pause before typing begins
-    setTimeout(runPacedTypewriter, 400);
+    // Graceful automatic dissolve after 2 circular revolutions (2.3s)
+    setTimeout(dismissIntro, 2300);
     genesisOverlay.addEventListener('click', dismissIntro);
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismissIntro();
