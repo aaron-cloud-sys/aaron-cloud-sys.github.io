@@ -715,7 +715,7 @@
   stroke-linecap: round !important;
   stroke-dasharray: 440 !important;
   stroke-dashoffset: 440 !important;
-  animation: orbitTrackDraw 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  animation: orbitTrackDraw 3.8s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
 }
 
 @keyframes orbitTrackDraw {
@@ -734,7 +734,7 @@
   align-items: center !important;
   justify-content: center !important;
   pointer-events: none !important;
-  animation: orbitPointerSweep 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  animation: orbitPointerSweep 3.8s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
 }
 
 @keyframes orbitPointerSweep {

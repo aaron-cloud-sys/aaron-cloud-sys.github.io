@@ -1062,8 +1062,8 @@
   }
 
   if (genesisOverlay) {
-    // Graceful automatic dissolve after 2 circular revolutions (2.3s)
-    setTimeout(dismissIntro, 2300);
+    // Graceful automatic dissolve after 2 slower, cinematic circular revolutions (3.8s)
+    setTimeout(dismissIntro, 3800);
     genesisOverlay.addEventListener('click', dismissIntro);
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') dismissIntro();
