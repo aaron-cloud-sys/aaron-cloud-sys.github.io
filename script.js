@@ -1094,9 +1094,9 @@
   }
 
   if (genesisOverlay) {
-    // Synchronized percentage interpolation [0% -> 100%] over 3.8s
+    // Synchronized percentage interpolation [0% -> 100%] over 5.5s
     const startTime = performance.now();
-    const duration = 3800;
+    const duration = 5500;
 
     function updatePercent(now) {
       if (introDismissed || !percentCountEl) return;
@@ -1213,4 +1213,152 @@
     hero.insertAdjacentElement('afterend', ticker);
   }
 
+  /* ── 12. INTERACTIVE HERO TELEMETRY, MULTI-PHILOSOPHY DIAL & 3D TILT ──────── */
+  const heroSection = document.getElementById('hero');
+  const heroCenter = document.getElementById('heroCenter');
+  const flankLeftEl = document.getElementById('flankLeft');
+  const flankRightEl = document.getElementById('flankRight');
+  const laserLeft = document.getElementById('laserLeft');
+  const laserRight = document.getElementById('laserRight');
+  const titleSwain = document.getElementById('titleSwain');
+
+  // Philosophy quote datasets
+  const leftPhilosophyQuotes = [
+    { text: 'WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?', meta: 'AUDIT_PRECISION', status: '99.8% LOCKED' },
+    { text: '99.8% PRECISION IS NOT AN ACCIDENT: IT IS AN ARCHITECTURE.', meta: 'ZERO_DEFECT', status: 'VERIFIED' },
+    { text: 'REAL-TIME FINANCIAL TRUTH OVER POST-MORTEM AUDITING.', meta: 'LEDGER_INTEGRITY', status: 'ACTIVE' }
+  ];
+
+  const rightPhilosophyQuotes = [
+    { text: "I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.", meta: 'AUTONOMOUS_AI', status: 'ONLINE' },
+    { text: '60% SPEEDUP THROUGH DETERMINISTIC AGENTIC PIPELINES.', meta: 'LATENCY_DROP', status: 'BENCHMARKED' },
+    { text: '₹1.5CR+ FULFILLMENT WITH ZERO CONTRACTUAL DEFECTS.', meta: 'SCALE_EXECUTION', status: 'CONFIRMED' }
+  ];
+
+  function runKineticScramble(el, targetText) {
+    if (!el) return;
+    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$&%';
+    let iter = 0;
+    const interval = setInterval(() => {
+      el.textContent = targetText
+        .split('')
+        .map((c, i) => {
+          if (c === ' ' || c === ':' || c === '?' || c === '.' || c === '—' || c === '-') return c;
+          if (i < iter) return targetText[i];
+          return chars[Math.floor(Math.random() * chars.length)];
+        })
+        .join('');
+      if (iter >= targetText.length) {
+        clearInterval(interval);
+        el.textContent = targetText;
+      }
+      iter += 1.5;
+    }, 20);
+  }
+
+  // Handle quote notch clicks
+  document.querySelectorAll('.ruler-notch').forEach(notch => {
+    notch.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const side = notch.dataset.side;
+      const idx = parseInt(notch.dataset.quote, 10);
+      
+      // Update active notch UI
+      const ruler = notch.closest('.telemetry-ruler');
+      if (ruler) {
+        ruler.querySelectorAll('.ruler-notch').forEach(n => n.classList.remove('active'));
+        notch.classList.add('active');
+      }
+
+      if (side === 'left') {
+        const qObj = leftPhilosophyQuotes[idx];
+        const textEl = document.getElementById('quoteLeftText');
+        runKineticScramble(textEl, qObj.text);
+      } else {
+        const qObj = rightPhilosophyQuotes[idx];
+        const textEl = document.getElementById('quoteRightText');
+        runKineticScramble(textEl, qObj.text);
+      }
+    });
+  });
+
+  // Laser guideline connections
+  function updateLaserGuidelines(side, active) {
+    if (!heroSection || !heroCenter) return;
+    const hRect = heroSection.getBoundingClientRect();
+    const cRect = heroCenter.getBoundingClientRect();
+    
+    if (side === 'left' && laserLeft && flankLeftEl) {
+      const fRect = flankLeftEl.getBoundingClientRect();
+      laserLeft.setAttribute('x1', fRect.right - hRect.left);
+      laserLeft.setAttribute('y1', fRect.top + fRect.height / 2 - hRect.top);
+      laserLeft.setAttribute('x2', cRect.left - hRect.left + 40);
+      laserLeft.setAttribute('y2', cRect.top + 80 - hRect.top);
+      if (active) laserLeft.classList.add('active');
+      else laserLeft.classList.remove('active');
+    }
+
+    if (side === 'right' && laserRight && flankRightEl) {
+      const fRect = flankRightEl.getBoundingClientRect();
+      laserRight.setAttribute('x1', fRect.left - hRect.left);
+      laserRight.setAttribute('y1', fRect.top + fRect.height / 2 - hRect.top);
+      laserRight.setAttribute('x2', cRect.right - hRect.left - 40);
+      laserRight.setAttribute('y2', cRect.top + 80 - hRect.top);
+      if (active) laserRight.classList.add('active');
+      else laserRight.classList.remove('active');
+    }
+  }
+
+  if (flankLeftEl) {
+    flankLeftEl.addEventListener('mouseenter', () => updateLaserGuidelines('left', true));
+    flankLeftEl.addEventListener('mouseleave', () => updateLaserGuidelines('left', false));
+  }
+
+  if (flankRightEl) {
+    flankRightEl.addEventListener('mouseenter', () => updateLaserGuidelines('right', true));
+    flankRightEl.addEventListener('mouseleave', () => updateLaserGuidelines('right', false));
+  }
+
+  // 3D Cursor-driven Gyroscope Tilt & Specular Lighting
+  if (heroSection) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      if (heroCenter) {
+        heroCenter.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateZ(10px)`;
+      }
+
+      if (titleSwain) {
+        titleSwain.style.textShadow = `${-x * 20}px ${-y * 20}px 35px rgba(0, 0, 0, 0.12)`;
+      }
+    });
+
+    heroSection.addEventListener('mouseleave', () => {
+      if (heroCenter) {
+        heroCenter.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px)';
+      }
+      if (titleSwain) {
+        titleSwain.style.textShadow = '0 4px 30px rgba(0, 0, 0, 0.08)';
+      }
+      updateLaserGuidelines('left', false);
+      updateLaserGuidelines('right', false);
+    });
+  }
+
+  // Copy Email CTA Button
+  const heroCopyBtn = document.getElementById('heroCopyEmailBtn');
+  const heroCopyText = document.getElementById('heroCopyEmailText');
+  if (heroCopyBtn) {
+    heroCopyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('ayushwain161@gmail.com');
+      if (heroCopyText) heroCopyText.textContent = 'Copied!';
+      setTimeout(() => {
+        if (heroCopyText) heroCopyText.textContent = 'Copy Email';
+      }, 2000);
+    });
+  }
+
 })();
+

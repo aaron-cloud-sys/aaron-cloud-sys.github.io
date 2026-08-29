@@ -143,40 +143,62 @@
 
   <!-- ══ 1. HERO STAGE (Dramatic Chiaroscuro Theatre — inspiration.mp4) ══ -->
   <section id="hero">
-    <!-- Theatrical Side Typography (Concept A: Precision Telemetry Rails) -->
-    <div class="stage-flank flank-left" id="flankLeft" aria-hidden="true">
+    <!-- Interactive Laser Telemetry Guidelines Canvas -->
+    <svg class="hero-laser-canvas" id="heroLaserCanvas" aria-hidden="true">
+      <line class="laser-guideline laser-left" id="laserLeft" x1="0" y1="0" x2="0" y2="0" />
+      <line class="laser-guideline laser-right" id="laserRight" x1="0" y1="0" x2="0" y2="0" />
+    </svg>
+
+    <!-- Theatrical Side Typography (Interactive Multi-Philosophy Rails) -->
+    <div class="stage-flank flank-left" id="flankLeft" aria-label="Operational Inquiry Rail">
       <div class="flank-telemetry-rail">
-        <div class="telemetry-ruler"><span class="ruler-notch"></span><span class="ruler-notch"></span><span class="ruler-notch active"></span></div>
+        <div class="telemetry-ruler" id="rulerLeft">
+          <button class="ruler-notch active" data-side="left" data-quote="0" title="Philosophy 01">01</button>
+          <button class="ruler-notch" data-side="left" data-quote="1" title="Philosophy 02">02</button>
+          <button class="ruler-notch" data-side="left" data-quote="2" title="Philosophy 03">03</button>
+        </div>
         <div class="flank-content">
-          <span class="stage-tag">// 001 · SPECIFICATION</span>
-          <p class="flank-quote scramble-text" data-original="WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?">WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?</p>
+          <span class="stage-tag">// 001 · OPERATIONAL INQUIRY</span>
+          <p class="flank-quote scramble-text" id="quoteLeftText" data-original="WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?">WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?</p>
+          <div class="quote-sub-meta">
+            <span class="meta-tag">AUDIT_PRECISION</span>
+            <span class="meta-status">99.8% LOCKED</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="stage-flank flank-right" id="flankRight" aria-hidden="true">
+    <div class="stage-flank flank-right" id="flankRight" aria-label="Systems Execution Rail">
       <div class="flank-telemetry-rail">
         <div class="flank-content text-right">
           <div class="flank-status-header">
             <span class="flank-beacon"></span>
             <span class="stage-tag">// SYSTEM STATE: OPERATIONAL</span>
           </div>
-          <p class="flank-quote scramble-text" data-original="I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.">I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.</p>
+          <p class="flank-quote scramble-text" id="quoteRightText" data-original="I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.">I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.</p>
+          <div class="quote-sub-meta justify-end">
+            <span class="meta-tag">AUTONOMOUS_AI</span>
+            <span class="meta-status">ONLINE</span>
+          </div>
         </div>
-        <div class="telemetry-ruler"><span class="ruler-notch active"></span><span class="ruler-notch"></span><span class="ruler-notch"></span></div>
+        <div class="telemetry-ruler" id="rulerRight">
+          <button class="ruler-notch active" data-side="right" data-quote="0" title="Philosophy 01">01</button>
+          <button class="ruler-notch" data-side="right" data-quote="1" title="Philosophy 02">02</button>
+          <button class="ruler-notch" data-side="right" data-quote="2" title="Philosophy 03">03</button>
+        </div>
       </div>
     </div>
 
-    <!-- Center Hero Content -->
-    <div class="hero-center">
+    <!-- Center Hero Content with 3D Tilt & Specular Light -->
+    <div class="hero-center" id="heroCenter">
       <div class="status-pill">
         <span class="pulse-dot"></span>
         <span>Open for Full-Time Finance, Operations &amp; AI Roles</span>
       </div>
 
-      <h1 class="hero-main-title">
+      <h1 class="hero-main-title" id="heroTitle">
         <span class="title-line">AYUSH</span>
-        <span class="title-line outline-glow">SWAIN</span>
+        <span class="title-line outline-glow" id="titleSwain">SWAIN</span>
       </h1>
 
       <p class="hero-discipline">
@@ -189,8 +211,47 @@
         managed <strong>150+ POs (₹3.4+ Cr)</strong>, and compressed workflow latency by <strong>60%</strong> using Agentic AI.
       </p>
 
+      <!-- Interactive Telemetry Bento Strip -->
+      <div class="hero-bento-strip">
+        <div class="bento-metric-chip" data-highlight="speedup">
+          <span class="bento-val">60%</span>
+          <span class="bento-lbl">CYCLE SPEEDUP</span>
+          <span class="bento-sub">Document Parsing</span>
+        </div>
+        <div class="bento-metric-chip" data-highlight="volume">
+          <span class="bento-val">₹1.5Cr+</span>
+          <span class="bento-lbl">PO FULFILLMENT</span>
+          <span class="bento-sub">150+ Orders</span>
+        </div>
+        <div class="bento-metric-chip" data-highlight="accuracy">
+          <span class="bento-val">99.8%</span>
+          <span class="bento-lbl">ACCURACY RATE</span>
+          <span class="bento-sub">₹95L+ Ledgers</span>
+        </div>
+        <div class="bento-metric-chip" data-highlight="compliance">
+          <span class="bento-val">0 ERROR</span>
+          <span class="bento-lbl">COMPLIANCE</span>
+          <span class="bento-sub">80+ GeM Filings</span>
+        </div>
+      </div>
 
+      <!-- Action Suite -->
       <div class="hero-cta-group">
+        <a href="#exploded-view" class="btn-primary-dark">
+          <span>Explore 3D Architecture</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 13l5 5 5-5M12 4v14"/></svg>
+        </a>
+
+        <button id="heroCopyEmailBtn" class="btn-secondary-dark" title="Copy email address">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="heroCopyEmailText">Copy Email</span>
+        </button>
+
+        <a href="ayushresumeog.pdf" download="Ayush_Swain_Resume.pdf" class="btn-secondary-dark">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download CV</span>
+        </a>
+
         <a href="https://www.linkedin.com/in/ayush-swain-71328b417/" target="_blank" rel="noopener" class="btn-secondary-dark">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
           <span>LinkedIn</span>
