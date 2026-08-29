@@ -1213,141 +1213,232 @@
     hero.insertAdjacentElement('afterend', ticker);
   }
 
-  /* ── 12. INTERACTIVE HERO TELEMETRY, MULTI-PHILOSOPHY DIAL & 3D TILT ──────── */
-  const heroSection = document.getElementById('hero');
-  const heroCenter = document.getElementById('heroCenter');
-  const flankLeftEl = document.getElementById('flankLeft');
-  const flankRightEl = document.getElementById('flankRight');
-  const laserLeft = document.getElementById('laserLeft');
-  const laserRight = document.getElementById('laserRight');
-  const titleSwain = document.getElementById('titleSwain');
+  /* ── 12. CINEMATIC DARK STAGE ENGINE ──────────────────────────────────────── */
 
-  // Philosophy quote datasets
-  const leftPhilosophyQuotes = [
+  /* ─ Mechanical Keyboard Sound (Web Audio API - no files needed) ─ */
+  let audioCtx = null;
+
+  function getAudioCtx() {
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+      catch (e) { audioCtx = null; }
+    }
+    return audioCtx;
+  }
+
+  function playKeyClick() {
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+    try {
+      // Sharp transient click - simulates mechanical key
+      const bufLen = ctx.sampleRate * 0.045;
+      const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < bufLen; i++) {
+        // Noise burst with fast exponential decay
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.008));
+      }
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+
+      // High-pass filter to make it sharp/clicky
+      const hpf = ctx.createBiquadFilter();
+      hpf.type = 'highpass';
+      hpf.frequency.value = 1800;
+      hpf.Q.value = 0.8;
+
+      // Gain envelope
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.22, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+
+      src.connect(hpf);
+      hpf.connect(gain);
+      gain.connect(ctx.destination);
+      src.start(ctx.currentTime);
+    } catch (e) { /* silent */ }
+  }
+
+  /* ─ Quote datasets ─ */
+  const leftQuotes = [
     { text: 'WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?', meta: 'AUDIT_PRECISION', status: '99.8% LOCKED' },
-    { text: '99.8% PRECISION IS NOT AN ACCIDENT: IT IS AN ARCHITECTURE.', meta: 'ZERO_DEFECT', status: 'VERIFIED' },
+    { text: '99.8% PRECISION IS NOT AN ACCIDENT. IT IS AN ARCHITECTURE.', meta: 'ZERO_DEFECT', status: 'VERIFIED' },
     { text: 'REAL-TIME FINANCIAL TRUTH OVER POST-MORTEM AUDITING.', meta: 'LEDGER_INTEGRITY', status: 'ACTIVE' }
   ];
 
-  const rightPhilosophyQuotes = [
-    { text: "I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.", meta: 'AUTONOMOUS_AI', status: 'ONLINE' },
+  const rightQuotes = [
+    { text: "I DON'T JUST ANALYZE SYSTEMS. I AUTOMATE THEM.", meta: 'AUTONOMOUS_AI', status: 'ONLINE' },
     { text: '60% SPEEDUP THROUGH DETERMINISTIC AGENTIC PIPELINES.', meta: 'LATENCY_DROP', status: 'BENCHMARKED' },
-    { text: '₹1.5CR+ FULFILLMENT WITH ZERO CONTRACTUAL DEFECTS.', meta: 'SCALE_EXECUTION', status: 'CONFIRMED' }
+    { text: '1.5CR+ FULFILLMENT WITH ZERO CONTRACTUAL DEFECTS.', meta: 'SCALE_EXECUTION', status: 'CONFIRMED' }
   ];
 
-  function runKineticScramble(el, targetText) {
-    if (!el) return;
-    const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$&%';
-    let iter = 0;
+  let leftIdx = 0;
+  let rightIdx = 0;
+  let leftTyping = false;
+  let rightTyping = false;
+
+  function setDotActive(side, idx) {
+    for (let i = 0; i < 3; i++) {
+      const dot = document.getElementById(`dot${side.charAt(0).toUpperCase() + side.slice(1)}${i}`);
+      if (dot) {
+        dot.classList.toggle('active', i === idx);
+      }
+    }
+  }
+
+  function typeQuote(side, idx, onDone) {
+    const isLeft = side === 'left';
+    const quotes = isLeft ? leftQuotes : rightQuotes;
+    const q = quotes[idx % quotes.length];
+    const typingEl = document.getElementById(isLeft ? 'typingLeft' : 'typingRight');
+    const metaTag = document.getElementById(isLeft ? 'metaTagLeft' : 'metaTagRight');
+    const metaStatus = document.getElementById(isLeft ? 'metaStatusLeft' : 'metaStatusRight');
+
+    if (!typingEl) return;
+
+    setDotActive(side, idx % quotes.length);
+    if (metaTag) metaTag.textContent = q.meta;
+    if (metaStatus) metaStatus.textContent = q.status;
+
+    typingEl.textContent = '';
+    const text = q.text;
+    let charIdx = 0;
+
     const interval = setInterval(() => {
-      el.textContent = targetText
-        .split('')
-        .map((c, i) => {
-          if (c === ' ' || c === ':' || c === '?' || c === '.' || c === '—' || c === '-') return c;
-          if (i < iter) return targetText[i];
-          return chars[Math.floor(Math.random() * chars.length)];
-        })
-        .join('');
-      if (iter >= targetText.length) {
-        clearInterval(interval);
-        el.textContent = targetText;
-      }
-      iter += 1.5;
-    }, 20);
-  }
-
-  // Handle quote notch clicks
-  document.querySelectorAll('.ruler-notch').forEach(notch => {
-    notch.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const side = notch.dataset.side;
-      const idx = parseInt(notch.dataset.quote, 10);
-      
-      // Update active notch UI
-      const ruler = notch.closest('.telemetry-ruler');
-      if (ruler) {
-        ruler.querySelectorAll('.ruler-notch').forEach(n => n.classList.remove('active'));
-        notch.classList.add('active');
-      }
-
-      if (side === 'left') {
-        const qObj = leftPhilosophyQuotes[idx];
-        const textEl = document.getElementById('quoteLeftText');
-        runKineticScramble(textEl, qObj.text);
+      if (charIdx < text.length) {
+        typingEl.textContent += text[charIdx];
+        // Only play sound on visible characters (not spaces every tick)
+        if (text[charIdx] !== ' ') {
+          playKeyClick();
+        }
+        charIdx++;
       } else {
-        const qObj = rightPhilosophyQuotes[idx];
-        const textEl = document.getElementById('quoteRightText');
-        runKineticScramble(textEl, qObj.text);
+        clearInterval(interval);
+        // Pause with cursor visible, then clear and do next
+        setTimeout(() => {
+          if (typeof onDone === 'function') onDone();
+        }, 2600);
       }
-    });
-  });
+    }, 72); // 72ms per character = deliberate, cinematic pace
+  }
 
-  // Laser guideline connections
-  function updateLaserGuidelines(side, active) {
-    if (!heroSection || !heroCenter) return;
-    const hRect = heroSection.getBoundingClientRect();
-    const cRect = heroCenter.getBoundingClientRect();
-    
-    if (side === 'left' && laserLeft && flankLeftEl) {
-      const fRect = flankLeftEl.getBoundingClientRect();
-      laserLeft.setAttribute('x1', fRect.right - hRect.left);
-      laserLeft.setAttribute('y1', fRect.top + fRect.height / 2 - hRect.top);
-      laserLeft.setAttribute('x2', cRect.left - hRect.left + 40);
-      laserLeft.setAttribute('y2', cRect.top + 80 - hRect.top);
-      if (active) laserLeft.classList.add('active');
-      else laserLeft.classList.remove('active');
+  function eraseQuote(side, onDone) {
+    const isLeft = side === 'left';
+    const typingEl = document.getElementById(isLeft ? 'typingLeft' : 'typingRight');
+    if (!typingEl) { if (typeof onDone === 'function') onDone(); return; }
+
+    const eraseInterval = setInterval(() => {
+      const t = typingEl.textContent;
+      if (t.length === 0) {
+        clearInterval(eraseInterval);
+        if (typeof onDone === 'function') onDone();
+      } else {
+        typingEl.textContent = t.slice(0, -1);
+        if (Math.random() > 0.4) playKeyClick();
+      }
+    }, 22); // erase fast
+  }
+
+  function startQuoteCycle(side) {
+    let idx = 0;
+    const quotes = side === 'left' ? leftQuotes : rightQuotes;
+
+    function cycle() {
+      typeQuote(side, idx, () => {
+        eraseQuote(side, () => {
+          idx = (idx + 1) % quotes.length;
+          setTimeout(() => cycle(), 400);
+        });
+      });
     }
 
-    if (side === 'right' && laserRight && flankRightEl) {
-      const fRect = flankRightEl.getBoundingClientRect();
-      laserRight.setAttribute('x1', fRect.left - hRect.left);
-      laserRight.setAttribute('y1', fRect.top + fRect.height / 2 - hRect.top);
-      laserRight.setAttribute('x2', cRect.right - hRect.left - 40);
-      laserRight.setAttribute('y2', cRect.top + 80 - hRect.top);
-      if (active) laserRight.classList.add('active');
-      else laserRight.classList.remove('active');
+    cycle();
+  }
+
+  // Stagger left and right starts so they don't overlap perfectly
+  setTimeout(() => startQuoteCycle('left'), 1000);
+  setTimeout(() => startQuoteCycle('right'), 2800);
+
+  /* ─ Particle Dust in Spotlight Beams ─ */
+  (function initParticles() {
+    const canvas = document.getElementById('stageParticles');
+    if (!canvas) return;
+    const ctx2d = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
     }
-  }
+    resize();
+    window.addEventListener('resize', resize);
 
-  if (flankLeftEl) {
-    flankLeftEl.addEventListener('mouseenter', () => updateLaserGuidelines('left', true));
-    flankLeftEl.addEventListener('mouseleave', () => updateLaserGuidelines('left', false));
-  }
+    const particles = [];
+    const COUNT = 55;
 
-  if (flankRightEl) {
-    flankRightEl.addEventListener('mouseenter', () => updateLaserGuidelines('right', true));
-    flankRightEl.addEventListener('mouseleave', () => updateLaserGuidelines('right', false));
-  }
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.3,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.22 - 0.05,
+        a: Math.random() * 0.35 + 0.05,
+        da: (Math.random() - 0.5) * 0.003
+      });
+    }
 
-  // 3D Cursor-driven Gyroscope Tilt & Specular Lighting
-  if (heroSection) {
-    heroSection.addEventListener('mousemove', (e) => {
-      const rect = heroSection.getBoundingClientRect();
+    function tick() {
+      ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.a += p.da;
+        if (p.a <= 0.02 || p.a >= 0.45) p.da *= -1;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx2d.beginPath();
+        ctx2d.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx2d.fillStyle = `rgba(255,255,255,${p.a.toFixed(2)})`;
+        ctx2d.fill();
+      });
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
+  /* ─ 3D Gyroscope Tilt on center stage ─ */
+  const heroSectionEl = document.getElementById('hero');
+  const heroCenterEl = document.getElementById('heroCenter');
+  const titleSwainEl = document.getElementById('titleSwain');
+
+  if (heroSectionEl) {
+    heroSectionEl.addEventListener('mousemove', (e) => {
+      const rect = heroSectionEl.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-      if (heroCenter) {
-        heroCenter.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateZ(10px)`;
+      if (heroCenterEl) {
+        heroCenterEl.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateZ(8px)`;
       }
-
-      if (titleSwain) {
-        titleSwain.style.textShadow = `${-x * 20}px ${-y * 20}px 35px rgba(0, 0, 0, 0.12)`;
+      if (titleSwainEl) {
+        titleSwainEl.style.textShadow = `0 0 40px rgba(255,255,255,${0.08 + Math.abs(x) * 0.15}), 0 0 80px rgba(255,255,255,${0.04 + Math.abs(y) * 0.08})`;
       }
     });
 
-    heroSection.addEventListener('mouseleave', () => {
-      if (heroCenter) {
-        heroCenter.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px)';
+    heroSectionEl.addEventListener('mouseleave', () => {
+      if (heroCenterEl) {
+        heroCenterEl.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px)';
       }
-      if (titleSwain) {
-        titleSwain.style.textShadow = '0 4px 30px rgba(0, 0, 0, 0.08)';
+      if (titleSwainEl) {
+        titleSwainEl.style.textShadow = '';
       }
-      updateLaserGuidelines('left', false);
-      updateLaserGuidelines('right', false);
     });
   }
 
-  // Copy Email CTA Button
+  /* ─ Copy Email CTA ─ */
   const heroCopyBtn = document.getElementById('heroCopyEmailBtn');
   const heroCopyText = document.getElementById('heroCopyEmailText');
   if (heroCopyBtn) {
@@ -1360,5 +1451,10 @@
     });
   }
 
+  // Unlock AudioContext on first user interaction (browser autoplay policy)
+  document.addEventListener('click', () => { getAudioCtx(); }, { once: true });
+  document.addEventListener('keydown', () => { getAudioCtx(); }, { once: true });
+
 })();
+
 

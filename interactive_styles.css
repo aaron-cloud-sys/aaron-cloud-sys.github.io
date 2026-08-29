@@ -1490,3 +1490,430 @@
   .hero-bento-strip { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
+
+/* ════════════════════════════════════════════════════════════════════════════
+   CINEMATIC DARK STAGE — HERO SECTION
+   Deep obsidian room, theatrical spotlights, auto-typing quote rails
+════════════════════════════════════════════════════════════════════════════ */
+
+/* ── DARK ROOM BASE ───────────────────────────────────────────────────────── */
+#hero {
+  background: #080808 !important;
+  position: relative !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 120px 24px 80px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  overflow: hidden !important;
+}
+
+/* Particle Dust Canvas */
+#stageParticles {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* ── THEATRICAL SPOTLIGHT BEAMS ───────────────────────────────────────────── */
+.spotlight-beam {
+  position: absolute !important;
+  top: -20px !important;
+  width: 420px !important;
+  height: 110vh !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+.spotlight-beam.beam-left {
+  left: -80px !important;
+  transform-origin: top left !important;
+  transform: rotate(18deg) !important;
+  animation: beamBreath 7s ease-in-out infinite !important;
+}
+
+.spotlight-beam.beam-right {
+  right: -80px !important;
+  transform-origin: top right !important;
+  transform: rotate(-18deg) !important;
+  animation: beamBreath 7s ease-in-out infinite 1.5s !important;
+}
+
+@keyframes beamBreath {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.82; }
+}
+
+.beam-cone {
+  width: 100% !important;
+  height: 100% !important;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.055) 30%,
+    rgba(255, 255, 255, 0.018) 65%,
+    transparent 100%
+  ) !important;
+  clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%) !important;
+}
+
+.beam-glow {
+  position: absolute !important;
+  top: 0 !important;
+  left: 35% !important;
+  width: 30% !important;
+  height: 40% !important;
+  background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.18) 0%, transparent 70%) !important;
+  filter: blur(20px) !important;
+}
+
+/* ── FLOOR REFLECTION ELLIPSE ─────────────────────────────────────────────── */
+.stage-floor-reflection {
+  position: absolute !important;
+  bottom: 8% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 55% !important;
+  height: 80px !important;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.12) 0%, transparent 70%) !important;
+  filter: blur(18px) !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+/* ── CENTER HERO ON DARK STAGE ────────────────────────────────────────────── */
+.hero-center {
+  width: 100% !important;
+  max-width: 700px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  position: relative !important;
+  z-index: 10 !important;
+  transform-style: preserve-3d !important;
+}
+
+/* Status Pill - Dark Stage Variant */
+.status-pill.dark {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(12px) !important;
+  margin-bottom: 22px !important;
+  font-size: 0.7rem !important;
+  padding: 6px 16px !important;
+  border-radius: 9999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 600 !important;
+}
+
+/* Title - Dark Stage Variants */
+.title-line.dark-solid {
+  font-family: 'Space Grotesk', -apple-system, sans-serif !important;
+  font-size: clamp(4rem, 9vw, 7.5rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 0.88 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-transform: uppercase !important;
+  display: block !important;
+  text-shadow: 0 0 60px rgba(255, 255, 255, 0.25), 0 0 120px rgba(255, 255, 255, 0.1) !important;
+}
+
+.title-line.dark-outline {
+  font-family: 'Space Grotesk', -apple-system, sans-serif !important;
+  font-size: clamp(4rem, 9vw, 7.5rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 0.88 !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.55) !important;
+  text-transform: uppercase !important;
+  display: block !important;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Discipline & Description - Dark Variants */
+.hero-discipline.dark {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  margin-bottom: 18px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 14px !important;
+  border-radius: 6px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.73rem !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+}
+
+.hero-discipline.dark .glow-txt {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+}
+
+.hero-discipline.dark .bullet {
+  color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.hero-description.dark {
+  color: rgba(255, 255, 255, 0.45) !important;
+  max-width: 640px !important;
+  margin: 0 auto 24px !important;
+  font-size: 0.94rem !important;
+  line-height: 1.65 !important;
+  text-align: center !important;
+}
+
+.hero-description.dark strong {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 800 !important;
+}
+
+/* ── DARK BENTO STRIP ─────────────────────────────────────────────────────── */
+.hero-bento-strip.dark {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 700px !important;
+  margin: 0 auto 26px !important;
+}
+
+.bento-metric-chip.dark {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  text-align: left !important;
+  transition: all 0.25s ease !important;
+  cursor: pointer !important;
+  display: flex !important;
+  flex-direction: column !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.bento-metric-chip.dark:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+.bento-metric-chip.dark .bento-val {
+  color: #ffffff !important;
+}
+
+.bento-metric-chip.dark .bento-lbl {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.bento-metric-chip.dark .bento-sub {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ── DARK STAGE BUTTONS ───────────────────────────────────────────────────── */
+.btn-stage-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 1px solid #ffffff !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.74rem !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15) !important;
+}
+
+.btn-stage-primary:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.3) !important;
+}
+
+.btn-stage-secondary {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 10px 16px !important;
+  border-radius: 8px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.btn-stage-secondary:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ── DARK SCROLL CUE ──────────────────────────────────────────────────────── */
+.scroll-cue.dark {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.scroll-cue.dark .mouse-icon {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.scroll-cue.dark .mouse-wheel {
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ── AUTO-TYPING QUOTE RAILS ──────────────────────────────────────────────── */
+.dark-quote-rail {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 280px !important;
+  z-index: 12 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.dark-quote-rail.rail-left {
+  left: 32px !important;
+}
+
+.dark-quote-rail.rail-right {
+  right: 32px !important;
+  align-items: flex-end !important;
+  text-align: right !important;
+}
+
+.rail-index-row {
+  display: flex !important;
+  gap: 5px !important;
+  align-items: center !important;
+}
+
+.rail-index-row.right {
+  justify-content: flex-end !important;
+}
+
+.rail-index-dot {
+  width: 5px !important;
+  height: 5px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.4s ease !important;
+}
+
+.rail-index-dot.active {
+  background: #ffffff !important;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8) !important;
+}
+
+.rail-label {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.6rem !important;
+  font-weight: 700 !important;
+  color: rgba(255, 255, 255, 0.3) !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+}
+
+.rail-quote {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  min-height: 60px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  flex-wrap: wrap !important;
+}
+
+.rail-quote.right {
+  justify-content: flex-end !important;
+}
+
+.typing-text {
+  white-space: pre-wrap !important;
+}
+
+.typing-cursor {
+  display: inline-block !important;
+  color: #ffffff !important;
+  font-weight: 300 !important;
+  animation: cursorBlink 0.9s step-end infinite !important;
+  margin: 0 1px !important;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.rail-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  margin-top: 4px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.58rem !important;
+}
+
+.rail-meta.right {
+  justify-content: flex-end !important;
+}
+
+.rail-meta-tag {
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  padding: 1px 6px !important;
+  border-radius: 3px !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+}
+
+.rail-meta-status {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+}
+
+@media (max-width: 1280px) {
+  .dark-quote-rail { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  .hero-bento-strip.dark { grid-template-columns: repeat(2, 1fr) !important; }
+  .spotlight-beam { width: 260px !important; }
+}

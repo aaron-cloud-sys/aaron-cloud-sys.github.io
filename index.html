@@ -17,9 +17,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-  <link rel="stylesheet" href="style.css?v=v10">
-  <link rel="stylesheet" href="bw_theme.css?v=v10">
-  <link rel="stylesheet" href="interactive_styles.css?v=v10">
+  <link rel="stylesheet" href="style.css?v=v11">
+  <link rel="stylesheet" href="bw_theme.css?v=v11">
+  <link rel="stylesheet" href="interactive_styles.css?v=v11">
 </head>
 <body>
 
@@ -141,94 +141,97 @@
     </div>
   </div>
 
-  <!-- ══ 1. HERO STAGE (Dramatic Chiaroscuro Theatre — inspiration.mp4) ══ -->
+  <!-- ══ 1. HERO STAGE (Cinematic Dark Room — Theatrical Chiaroscuro) ══ -->
   <section id="hero">
-    <!-- Interactive Laser Telemetry Guidelines Canvas -->
-    <svg class="hero-laser-canvas" id="heroLaserCanvas" aria-hidden="true">
-      <line class="laser-guideline laser-left" id="laserLeft" x1="0" y1="0" x2="0" y2="0" />
-      <line class="laser-guideline laser-right" id="laserRight" x1="0" y1="0" x2="0" y2="0" />
-    </svg>
 
-    <!-- Theatrical Side Typography (Interactive Multi-Philosophy Rails) -->
-    <div class="stage-flank flank-left" id="flankLeft" aria-label="Operational Inquiry Rail">
-      <div class="flank-telemetry-rail">
-        <div class="telemetry-ruler" id="rulerLeft">
-          <button class="ruler-notch active" data-side="left" data-quote="0" title="Philosophy 01">01</button>
-          <button class="ruler-notch" data-side="left" data-quote="1" title="Philosophy 02">02</button>
-          <button class="ruler-notch" data-side="left" data-quote="2" title="Philosophy 03">03</button>
-        </div>
-        <div class="flank-content">
-          <span class="stage-tag">// 001 · OPERATIONAL INQUIRY</span>
-          <p class="flank-quote scramble-text" id="quoteLeftText" data-original="WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?">WHAT DIFFERENCE COULD 1 MORE RECONCILIATION MAKE?</p>
-          <div class="quote-sub-meta">
-            <span class="meta-tag">AUDIT_PRECISION</span>
-            <span class="meta-status">99.8% LOCKED</span>
-          </div>
-        </div>
+    <!-- Particle Dust Canvas (floating motes in spotlight beams) -->
+    <canvas id="stageParticles" aria-hidden="true"></canvas>
+
+    <!-- Left Spotlight Beam -->
+    <div class="spotlight-beam beam-left" aria-hidden="true">
+      <div class="beam-cone"></div>
+      <div class="beam-glow"></div>
+    </div>
+
+    <!-- Right Spotlight Beam -->
+    <div class="spotlight-beam beam-right" aria-hidden="true">
+      <div class="beam-cone"></div>
+      <div class="beam-glow"></div>
+    </div>
+
+    <!-- Floor Reflection Ellipse -->
+    <div class="stage-floor-reflection" aria-hidden="true"></div>
+
+    <!-- LEFT QUOTE RAIL (auto-typing quotes) -->
+    <div class="dark-quote-rail rail-left" id="railLeft" aria-live="polite">
+      <div class="rail-index-row">
+        <span class="rail-index-dot active" id="dotLeft0"></span>
+        <span class="rail-index-dot" id="dotLeft1"></span>
+        <span class="rail-index-dot" id="dotLeft2"></span>
+      </div>
+      <span class="rail-label">// OPERATIONAL INQUIRY</span>
+      <p class="rail-quote" id="quoteLeftText"><span class="typing-text" id="typingLeft"></span><span class="typing-cursor" id="cursorLeft">|</span></p>
+      <div class="rail-meta">
+        <span class="rail-meta-tag" id="metaTagLeft">AUDIT_PRECISION</span>
+        <span class="rail-meta-status" id="metaStatusLeft">ACTIVE</span>
       </div>
     </div>
 
-    <div class="stage-flank flank-right" id="flankRight" aria-label="Systems Execution Rail">
-      <div class="flank-telemetry-rail">
-        <div class="flank-content text-right">
-          <div class="flank-status-header">
-            <span class="flank-beacon"></span>
-            <span class="stage-tag">// SYSTEM STATE: OPERATIONAL</span>
-          </div>
-          <p class="flank-quote scramble-text" id="quoteRightText" data-original="I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.">I DON'T JUST ANALYZE SYSTEMS — I AUTOMATE THEM.</p>
-          <div class="quote-sub-meta justify-end">
-            <span class="meta-tag">AUTONOMOUS_AI</span>
-            <span class="meta-status">ONLINE</span>
-          </div>
-        </div>
-        <div class="telemetry-ruler" id="rulerRight">
-          <button class="ruler-notch active" data-side="right" data-quote="0" title="Philosophy 01">01</button>
-          <button class="ruler-notch" data-side="right" data-quote="1" title="Philosophy 02">02</button>
-          <button class="ruler-notch" data-side="right" data-quote="2" title="Philosophy 03">03</button>
-        </div>
+    <!-- RIGHT QUOTE RAIL (auto-typing quotes) -->
+    <div class="dark-quote-rail rail-right" id="railRight" aria-live="polite">
+      <div class="rail-index-row right">
+        <span class="rail-index-dot active" id="dotRight0"></span>
+        <span class="rail-index-dot" id="dotRight1"></span>
+        <span class="rail-index-dot" id="dotRight2"></span>
+      </div>
+      <span class="rail-label right">// SYSTEMS EXECUTION</span>
+      <p class="rail-quote right" id="quoteRightText"><span class="typing-cursor right" id="cursorRight">|</span><span class="typing-text" id="typingRight"></span></p>
+      <div class="rail-meta right">
+        <span class="rail-meta-status" id="metaStatusRight">ONLINE</span>
+        <span class="rail-meta-tag" id="metaTagRight">AUTONOMOUS_AI</span>
       </div>
     </div>
 
-    <!-- Center Hero Content with 3D Tilt & Specular Light -->
+    <!-- CENTER STAGE -->
     <div class="hero-center" id="heroCenter">
-      <div class="status-pill">
+      <div class="status-pill dark">
         <span class="pulse-dot"></span>
         <span>Open for Full-Time Finance, Operations &amp; AI Roles</span>
       </div>
 
       <h1 class="hero-main-title" id="heroTitle">
-        <span class="title-line">AYUSH</span>
-        <span class="title-line outline-glow" id="titleSwain">SWAIN</span>
+        <span class="title-line dark-solid">AYUSH</span>
+        <span class="title-line dark-outline" id="titleSwain">SWAIN</span>
       </h1>
 
-      <p class="hero-discipline">
+      <p class="hero-discipline dark">
         Corporate Finance <span class="bullet">/</span> GeM Operations <span class="bullet">/</span> <em class="glow-txt">Agentic AI Automation</em>
       </p>
 
-      <p class="hero-description">
-        Data-driven Commerce graduate (B.Com) from KIIT University turning complex operational friction into 
-        autonomous, mathematically reconciled financial architectures. Reconciled <strong>₹95L+</strong> in ledgers, 
+      <p class="hero-description dark">
+        Data-driven Commerce graduate (B.Com) from KIIT University turning complex operational friction into
+        autonomous, mathematically reconciled financial architectures. Reconciled <strong>₹95L+</strong> in ledgers,
         managed <strong>150+ POs (₹3.4+ Cr)</strong>, and compressed workflow latency by <strong>60%</strong> using Agentic AI.
       </p>
 
-      <!-- Interactive Telemetry Bento Strip -->
-      <div class="hero-bento-strip">
-        <div class="bento-metric-chip" data-highlight="speedup">
+      <!-- Telemetry Bento Strip -->
+      <div class="hero-bento-strip dark">
+        <div class="bento-metric-chip dark" data-highlight="speedup">
           <span class="bento-val">60%</span>
           <span class="bento-lbl">CYCLE SPEEDUP</span>
           <span class="bento-sub">Document Parsing</span>
         </div>
-        <div class="bento-metric-chip" data-highlight="volume">
+        <div class="bento-metric-chip dark" data-highlight="volume">
           <span class="bento-val">₹1.5Cr+</span>
           <span class="bento-lbl">PO FULFILLMENT</span>
           <span class="bento-sub">150+ Orders</span>
         </div>
-        <div class="bento-metric-chip" data-highlight="accuracy">
+        <div class="bento-metric-chip dark" data-highlight="accuracy">
           <span class="bento-val">99.8%</span>
           <span class="bento-lbl">ACCURACY RATE</span>
           <span class="bento-sub">₹95L+ Ledgers</span>
         </div>
-        <div class="bento-metric-chip" data-highlight="compliance">
+        <div class="bento-metric-chip dark" data-highlight="compliance">
           <span class="bento-val">0 ERROR</span>
           <span class="bento-lbl">COMPLIANCE</span>
           <span class="bento-sub">80+ GeM Filings</span>
@@ -237,33 +240,30 @@
 
       <!-- Action Suite -->
       <div class="hero-cta-group">
-        <a href="#exploded-view" class="btn-primary-dark">
+        <a href="#exploded-view" class="btn-stage-primary">
           <span>Explore 3D Architecture</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 13l5 5 5-5M12 4v14"/></svg>
         </a>
 
-        <button id="heroCopyEmailBtn" class="btn-secondary-dark" title="Copy email address">
+        <button id="heroCopyEmailBtn" class="btn-stage-secondary" title="Copy email address">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <span id="heroCopyEmailText">Copy Email</span>
         </button>
 
-        <a href="ayushresumeog.pdf" download="Ayush_Swain_Resume.pdf" class="btn-secondary-dark">
+        <a href="ayushresumeog.pdf" download="Ayush_Swain_Resume.pdf" class="btn-stage-secondary">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           <span>Download CV</span>
         </a>
 
-        <a href="https://www.linkedin.com/in/ayush-swain-71328b417/" target="_blank" rel="noopener" class="btn-secondary-dark">
+        <a href="https://www.linkedin.com/in/ayush-swain-71328b417/" target="_blank" rel="noopener" class="btn-stage-secondary">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
           <span>LinkedIn</span>
         </a>
       </div>
     </div>
 
-    <!-- Theatrical Spotlight Ellipse on Floor -->
-    <div class="stage-spotlight-floor" aria-hidden="true"></div>
-
     <!-- Scroll Down Indicator -->
-    <div class="scroll-cue">
+    <div class="scroll-cue dark">
       <div class="mouse-icon"><div class="mouse-wheel"></div></div>
       <span>SCROLL TO DECONSTRUCT</span>
     </div>
