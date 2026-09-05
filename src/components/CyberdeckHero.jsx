@@ -42,6 +42,7 @@ export default function CyberdeckHero() {
   const baseModelYRef = useRef(-0.5);
   const [activeStep, setActiveStep] = useState(0);
   const [isDeconstructed, setIsDeconstructed] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Apply scrollytelling progress (0.0 to 1.0) matching aaron-cloud-sys.github.io
   const updateScrollyState = useCallback((progress) => {
@@ -55,7 +56,7 @@ export default function CyberdeckHero() {
       return;
     }
 
-    if (progress < 0.15) {
+    if (progress < 0.05) {
       // Step 0: Assembled (Lid closed, stacked tightly)
       baseModelYRef.current = -0.5;
       layerDisplay.position.set(0, 0.18, -4.5);
@@ -71,7 +72,7 @@ export default function CyberdeckHero() {
     } else if (progress < 0.45) {
       // Step 1: Opening (Lid smoothly rotates up to 105 degrees on hinge)
       // Dynamically lower baseModelY so the tall opened display is centered vertically
-      const t = (progress - 0.15) / 0.30;
+      const t = (progress - 0.05) / 0.40;
       baseModelYRef.current = -0.5 - t * 2.6;
       layerDisplay.position.set(0, 0.18, -4.5);
       layerDisplay.rotation.x = -t * 1.85; // 105-degree opening
@@ -112,7 +113,7 @@ export default function CyberdeckHero() {
     if (!section) return;
 
     const totalHeight = section.offsetHeight - window.innerHeight;
-    const progressTargets = [0.05, 0.30, 0.65, 0.95];
+    const progressTargets = [0.0, 0.25, 0.65, 0.95];
     const targetY = section.offsetTop + totalHeight * progressTargets[stepIdx];
 
     window.scrollTo({
@@ -689,6 +690,7 @@ export default function CyberdeckHero() {
       const scrolled = -rect.top;
       const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
       updateScrollyState(progress);
+      setIsScrolled(window.scrollY > 80);
     };
     calculateInitialScroll();
 
@@ -713,6 +715,7 @@ export default function CyberdeckHero() {
       const scrolled = -rect.top;
       const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
       updateScrollyState(progress);
+      setIsScrolled(window.scrollY > 80);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -743,8 +746,14 @@ export default function CyberdeckHero() {
         />
 
         {/* Tactical HUD Top Bar Controls */}
-        <div className="absolute top-20 left-0 w-full px-6 sm:px-12 flex items-center justify-between z-30 pointer-events-none">
-          <div className="pointer-events-auto flex items-center gap-3">
+        <div
+          className={`absolute top-20 left-0 w-full px-6 sm:px-12 flex items-center justify-between z-30 transition-all duration-700 ease-out ${
+            isScrolled
+              ? 'opacity-100 translate-y-0 pointer-events-auto'
+              : 'opacity-0 -translate-y-4 pointer-events-none [&_*]:pointer-events-none'
+          }`}
+        >
+          <div className="flex items-center gap-3">
             <span className="font-mono text-[10px] tracking-[0.2em] text-zinc-400 uppercase font-bold">
               HARDWARE ARCHITECTURE
             </span>

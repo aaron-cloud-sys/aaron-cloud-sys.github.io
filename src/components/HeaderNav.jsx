@@ -7,6 +7,20 @@ export default function HeaderNav() {
   const [copied, setCopied] = useState(false);
   const [timeIST, setTimeIST] = useState('');
   const [muted, setMuted] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Upper navigation vanishes at top (laptop closed) and reveals as user scrolls down
+      const isScrolled = window.scrollY > 80;
+      setVisible(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const updateTimes = () => {
@@ -51,7 +65,13 @@ export default function HeaderNav() {
   ];
 
   return (
-    <header className="fixed top-3 left-0 right-0 z-40 px-3 sm:px-6 pointer-events-none">
+    <header
+      className={`fixed top-3 left-0 right-0 z-40 px-3 sm:px-6 transition-all duration-700 ease-out ${
+        visible
+          ? 'opacity-100 translate-y-0 pointer-events-auto'
+          : 'opacity-0 -translate-y-6 pointer-events-none [&_*]:pointer-events-none'
+      }`}
+    >
       <div className="mx-auto max-w-7xl flex items-center justify-between gap-3">
         
         {/* Left: Brand Identity Emblem */}
