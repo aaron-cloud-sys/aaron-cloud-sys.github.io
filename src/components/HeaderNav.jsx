@@ -11,8 +11,8 @@ export default function HeaderNav() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Upper navigation vanishes at top (laptop closed) and reveals as user scrolls down
-      const isScrolled = window.scrollY > 80;
+      // Upper navigation vanishes at top and reveals by the 5th scroll (~480px)
+      const isScrolled = window.scrollY >= 480;
       setVisible(isScrolled);
     };
 

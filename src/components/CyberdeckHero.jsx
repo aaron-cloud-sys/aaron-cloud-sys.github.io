@@ -690,7 +690,7 @@ export default function CyberdeckHero() {
       const scrolled = -rect.top;
       const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
       updateScrollyState(progress);
-      setIsScrolled(window.scrollY > 80);
+      setIsScrolled(window.scrollY >= 480);
     };
     calculateInitialScroll();
 
@@ -715,7 +715,7 @@ export default function CyberdeckHero() {
       const scrolled = -rect.top;
       const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
       updateScrollyState(progress);
-      setIsScrolled(window.scrollY > 80);
+      setIsScrolled(window.scrollY >= 480);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
